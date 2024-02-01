@@ -6,7 +6,6 @@
     const editColumnName = ref(false);
     const addNewTaskField = ref(false);
     const boardStore = useBoardStore();
-
     
     defineProps({
         column:{
@@ -71,11 +70,12 @@
             </div>
         </div>
         <ul>
-            <li v-for="task in column.tasks" :key="task.id">
-                <UCard class="mb-4">
-                    <strong>{{ task.name }}</strong>
-                    <p>{{ task.description }}</p>
-                </UCard>
+            <li v-for="(task, taskIndex) in column.tasks" :key="task.id">
+                <BoardTask 
+                    :task="task"
+                    :columnIndex="columnIndex"
+                    :taskIndex="taskIndex"
+                />
             </li>
         </ul>
         <UButton v-if="!addNewTaskField"
