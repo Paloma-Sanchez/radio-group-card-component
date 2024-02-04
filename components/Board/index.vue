@@ -1,19 +1,29 @@
 <script setup>
     import { useBoardStore } from '../stores/boardStore';
     const boardStore = useBoardStore();
-    const newColumnName = ref('')
+    const newColumnName = ref('');
    
+    const props = defineProps({
+        board:{
+            type:Object,
+            required:true
+        }
+    })
 
     const addColumn = () => {
         boardStore.addColumn(newColumnName.value);
         newColumnName.value = '';
-    }
+    };
+
+    
 </script>
 <template>
-    
-    <div class="board-wrapper">
+    <div 
+        class="board-wrapper" 
+       
+    >
         <main class="board">
-            <BoardColumn v-for="(column, columnIndex) in boardStore.board.columns" 
+            <BoardColumn v-for="(column, columnIndex) in board.columns" 
                 :key="column.name"
                 :column="column"
                 :columnIndex="columnIndex"   

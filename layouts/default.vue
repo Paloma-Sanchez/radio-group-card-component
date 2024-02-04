@@ -1,4 +1,7 @@
 <template>
     <Navbar/>
-    <slot/>
+    <div class="absolute h-full">
+        <Sidebar/>
+        <slot/>
+    </div>
 </template>

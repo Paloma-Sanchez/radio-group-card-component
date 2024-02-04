@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 export const useBoardStore = defineStore('boardStore', () => {
     const boards =  ref(null);
     const board = ref(null);
+    const boardLoading = ref(false);
 
     const loadBoards = async() => {
         const {data} = await useFetch('http://localhost:3000/boards');
@@ -10,7 +11,9 @@ export const useBoardStore = defineStore('boardStore', () => {
     }
 
     const loadSelectedBoard = async (boardId) => {
+        boardLoading.value = true;
         const {data} = await useFetch(`http://localhost:3000/boards/${boardId}`);
+        boardLoading.value = false;
         return board.value = data.value; 
     }
     
@@ -41,6 +44,7 @@ export const useBoardStore = defineStore('boardStore', () => {
     return {
         boards,
         board,
+        boardLoading,
         loadBoards,
         loadSelectedBoard,
         addColumn,

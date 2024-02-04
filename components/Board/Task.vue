@@ -1,6 +1,7 @@
 <script setup>
     const boardStore = useBoardStore();
     const modifyTaskField = ref(false);
+    const showModifyTaskMenu = ref(false);
 
     const props = defineProps({
         task:{
@@ -32,32 +33,41 @@
 </script>
 
 <template>
-    <UCard class="mb-4">
-        <div class="flex justify-between">
-            <div v-if="!modifyTaskField">
-                <strong>{{ task.name }}</strong>
-                <p>{{ task.description }}</p>
+    <UCard 
+        class="c-card mb-4 w-full hover:ring-sky-600 hover:ring" 
+        :ui="{ body: {padding: 'py-1 sm:py-1' } }"
+    >
+        <div 
+            class="flex justify-between items-center h-8 "
+            @mouseenter="()=>showModifyTaskMenu = true"
+            @mouseleave="()=>showModifyTaskMenu = false"
+        >
+            <div class="c-task-content">
+                <div v-if="!modifyTaskField">
+                    <strong>{{ task.name }}</strong>
+                    <p>{{ task.description }}</p>
+                </div>
+                <div v-else>
+                    <UForm  @submit="modifyTask(taskIndex, columnIndex)">
+                        <UFormGroup label="Task Name" required>
+                            <UInput 
+                            v-model="newTaskName" 
+                            variant="outline" 
+                            placeholder="Task Name" />
+                        </UFormGroup>
+                        <UFormGroup label="Task Description">
+                            <UTextarea v-model="newTaskDescription"/>
+                        </UFormGroup>
+                        <UButton 
+                            type="submit"
+                            color="gray"
+                            >
+                            Save
+                        </UButton>
+                    </UForm>
+                </div>
             </div>
-            <div v-else>
-                <UForm  @submit="modifyTask(taskIndex, columnIndex)">
-                    <UFormGroup label="Task Name" required>
-                        <UInput 
-                        v-model="newTaskName" 
-                        variant="outline" 
-                        placeholder="Task Name" />
-                    </UFormGroup>
-                    <UFormGroup label="Task Description">
-                        <UTextarea v-model="newTaskDescription"/>
-                    </UFormGroup>
-                    <UButton 
-                        type="submit"
-                        color="gray"
-                        >
-                        Save
-                    </UButton>
-                </UForm>
-            </div>
-            <div class="flex ">
+            <div class="c-modify-task flex" v-if="showModifyTaskMenu">
                 <UButton 
                     type="button"
                     icon="i-heroicons-pencil"

@@ -3,7 +3,7 @@
         {
             "name": "task-board",
             "id": "e1fc641b-0e18-4256-bed7-d7cd91d4c1ac",
-            "url": "assets/images/background_photo_desktop.jpg",
+            "url": "https://www.peruhop.com/wp-content/uploads/full-day-tour-main.jpg",
             "columns": [{
                 "name": "todo",
                 "tasks":[{
@@ -39,7 +39,7 @@
         {
             "name": "task-board",
             "id": "5edd3944-4baf-44d2-a855-5031ddb4d3c5",
-            "url": "/Users/paloma/trello-clone-nuxt3/assets/images/background_photo_desktop.jpg",
+            "url": "https://humanidades.com/wp-content/uploads/2018/09/Per%C3%BA-5-e1578616930994-800x416.jpg",
             "columns": [{
                 "name": "todo",
                 "tasks":[{
