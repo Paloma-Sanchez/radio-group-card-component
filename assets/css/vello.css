@@ -8,7 +8,7 @@
   }
   
   .column {
-    @apply flex-1 p-2 ml-4 rounded-lg bg-slate-500/70 w-[284px];
+    @apply flex-1 pb-2 pt-2 ml-4 rounded-lg bg-slate-500/70 w-[284px];
     
   }
   

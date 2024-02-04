@@ -17,6 +17,8 @@ const onShowMenuButtonClick = () => {
             'z-10', 
             'rounded-r-lg',
             '-left-60',
+            'transition ease-in-out',
+            'duration-500',
             {
                 'transform translate-x-60' : sideBarShowing
             }

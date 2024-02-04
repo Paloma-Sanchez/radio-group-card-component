@@ -30,20 +30,31 @@
         console.log('deleting');
         boardStore.deleteTask(taskIndex, columnIndex)
     }
+
+    /*
+     <UButton 
+                    type="button"
+                    icon="i-heroicons-x-mark"
+                    color="gray"
+                    class="ml-4"
+                    @click="deleteTask(taskIndex, columnIndex)"
+                />
+    */
 </script>
 
 <template>
+    
     <UCard 
-        class="c-card mb-4 w-full hover:ring-sky-600 hover:ring" 
-        :ui="{ body: {padding: 'py-1 sm:py-1' } }"
+        class="c-card mb-4 w-full hover:ring-sky-600 hover:ring " 
+        :ui="{ body: {padding: 'py-1 sm:p-1' } }"
     >
         <div 
-            class="flex justify-between items-center h-8 "
-            @mouseenter="()=>showModifyTaskMenu = true"
-            @mouseleave="()=>showModifyTaskMenu = false"
+            class="flex justify-between items-center  "
+            @mouseenter="()=>modifyTaskField?'': showModifyTaskMenu = true"
+            @mouseleave="()=>modifyTaskField?'': showModifyTaskMenu = false"
         >
-            <div class="c-task-content">
-                <div v-if="!modifyTaskField">
+            <div class="c-task-content ">
+                <div v-if="!modifyTaskField" class="h-8">
                     <strong>{{ task.name }}</strong>
                     <p>{{ task.description }}</p>
                 </div>
@@ -67,22 +78,20 @@
                     </UForm>
                 </div>
             </div>
-            <div class="c-modify-task flex" v-if="showModifyTaskMenu">
-                <UButton 
-                    type="button"
-                    icon="i-heroicons-pencil"
-                    color="gray"
-                    class="ml-4"
-                    @click="modifyTaskField = !modifyTaskField "
-                />
-                <UButton 
-                    type="button"
-                    icon="i-heroicons-x-mark"
-                    color="gray"
-                    class="ml-4"
-                    @click="deleteTask(taskIndex, columnIndex)"
-                />
+            <div class="c-modify-task-menu flex" v-if="showModifyTaskMenu && !modifyTaskField">
+                <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
+                    <UButton 
+                        type="button"
+                        icon="i-heroicons-pencil"
+                        size="2xs"
+                        color="gray"
+                        class="ml-4"
+                        variant="link"
+                        @click="modifyTaskField = !modifyTaskField "
+                    />
+                </UDropdown>
             </div>
             </div>  
     </UCard>
 </template>
+

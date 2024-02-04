@@ -34,7 +34,9 @@
             <div 
                 
             >
-                <p>{{ boardName }}</p>
+                <p class="text-slate-50 p-4 text-lg font-semibold">
+                    {{ boardName }}
+                </p>
             </div>
         </NuxtLink>
 </div>

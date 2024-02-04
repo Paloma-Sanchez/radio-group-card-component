@@ -115,16 +115,29 @@
             @click="addNewTaskField = !addNewTaskField"
         />
         <UForm v-else @submit="addTask(columnIndex, newTaskName, newTaskDescription)">
-            <UFormGroup label="Task Name" required>
+            <UFormGroup 
+                class="mb-2"
+                label="Task Name" 
+                required
+                :ui="{label:{base:'text-sky-100'}}"
+            >
                 <UInput 
-                v-model="newTaskName" 
-                variant="outline" 
-                placeholder="Task Name" />
+                    v-model="newTaskName" 
+                    color="sky"
+                    variant="outline" 
+                    placeholder="Task Name" 
+                />
             </UFormGroup>
-            <UFormGroup label="Task Description">
-                <UTextarea v-model="newTaskDescription"/>
+            <UFormGroup 
+                label="Task Description"
+                :ui="{label:{base:'text-sky-100'}}"
+            >
+                <UTextarea 
+                    v-model="newTaskDescription"
+                    color="sky"
+                />
             </UFormGroup>
-            <div class="mt-4">
+            <div class="flex items-center mt-4">
                 <UButton 
                 type="submit"
                 color="blue"
@@ -145,3 +158,17 @@
         </UForm>
     </UContainer>
 </template>
+
+<style>
+.c-column{
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+@media (min-width: 640px) {
+    .c-column{
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
+</style>

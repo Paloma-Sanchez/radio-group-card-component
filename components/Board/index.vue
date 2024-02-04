@@ -20,7 +20,6 @@
 <template>
     <div 
         class="board-wrapper" 
-       
     >
         <main class="board">
             <BoardColumn v-for="(column, columnIndex) in board.columns" 
@@ -28,15 +27,14 @@
                 :column="column"
                 :columnIndex="columnIndex"   
             />
-               
-                <UContainer class="column" >
+            <UContainer class="column mx-" >
                     <UInput 
                         type="text"
                         placeholder=" Create new column" 
                         icon="i-heroicons-plus-circle-solid"
                         v-model="newColumnName"
                         @keyup.enter="addColumn"/>
-                </UContainer>
+            </UContainer>
         </main>
     </div>
    
