@@ -31,6 +31,10 @@
         boardStore.deleteTask(taskIndex, columnIndex)
     }
 
+    const onOpenModifyTaskMenu = () => {
+        boardStore.toggleMaskVisibility();
+    }
+
     /*
      <UButton 
                     type="button"
@@ -87,7 +91,7 @@
                         color="gray"
                         class="ml-4"
                         variant="link"
-                        @click="modifyTaskField = !modifyTaskField "
+                        @click="onOpenModifyTaskMenu"
                     />
                 </UDropdown>
             </div>

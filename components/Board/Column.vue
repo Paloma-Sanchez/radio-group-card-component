@@ -17,6 +17,10 @@
         columnIndex:{
             type: Number,
             required:true
+        },
+        maskIsVisible:{
+            type:Boolean,
+            default:false
         }
     })
 
@@ -94,7 +98,16 @@
             </div>
         </div>
         <ul>
-            <li v-for="(task, taskIndex) in column.tasks" :key="task.id">
+            <li 
+                v-for="(task, taskIndex) in column.tasks" 
+                :key="task.id"
+                :class="[
+                    {
+                        'relative': maskIsVisible,
+                        'z-20':maskIsVisible
+                    }
+                ]"
+                >
                 <BoardTask 
                     :task="task"
                     :columnIndex="columnIndex"

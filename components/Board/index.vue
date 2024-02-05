@@ -2,6 +2,7 @@
     import { useBoardStore } from '../stores/boardStore';
     const boardStore = useBoardStore();
     const newColumnName = ref('');
+    const maskIsVisible = computed(()=> boardStore.maskIsVisible);
    
     const props = defineProps({
         board:{
@@ -19,13 +20,20 @@
 </script>
 <template>
     <div 
-        class="board-wrapper" 
+        :class="[
+            'board-wrapper',
+            {
+            'relative':maskIsVisible,
+            '-top-full': maskIsVisible
+            }
+        ]" 
     >
         <main class="board">
             <BoardColumn v-for="(column, columnIndex) in board.columns" 
                 :key="column.name"
                 :column="column"
-                :columnIndex="columnIndex"   
+                :columnIndex="columnIndex"
+                :maskIsVisible="maskIsVisible"  
             />
             <UContainer class="column mx-" >
                     <UInput 

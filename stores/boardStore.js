@@ -4,6 +4,7 @@ export const useBoardStore = defineStore('boardStore', () => {
     const boards =  ref(null);
     const board = ref(null);
     const boardLoading = ref(false);
+    const maskIsVisible = ref(true);
 
     const loadBoards = async() => {
         const {data} = await useFetch('http://localhost:3000/boards');
@@ -40,17 +41,22 @@ export const useBoardStore = defineStore('boardStore', () => {
         board.value.columns[columnIndex].tasks.splice(taskIndex, 1);
     }
 
+    const toggleMaskVisibility = () => {
+        return maskIsVisible.value = ! maskIsVisible.value;
+    }
 
     return {
         boards,
         board,
         boardLoading,
+        maskIsVisible,
         loadBoards,
         loadSelectedBoard,
         addColumn,
         deleteColumn,
         addTask,
         modifyTask,
-        deleteTask
+        deleteTask,
+        toggleMaskVisibility
     }
 })
