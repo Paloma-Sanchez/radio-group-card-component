@@ -91,7 +91,7 @@
                 </div>
             </div>
             <div class="c-modify-task-menu flex" v-if="showModifyTaskMenu && !modifyTaskField">
-                <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
+                <UDropdown  :popper="{ placement: 'bottom-start' }">
                     <UButton 
                         type="button"
                         icon="i-heroicons-pencil"

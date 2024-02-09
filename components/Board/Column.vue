@@ -22,11 +22,7 @@
             type:Boolean,
             default:false
         }
-    })
-
-    const deleteColumn = (columnName) => {
-            boardStore.deleteColumn(columnName);
-    };
+    });
 
     const addTask = (columnIndex, name, description) => {
         const newId = uuidv4();
@@ -42,21 +38,16 @@
         addNewTaskField.value=false;
     };
 
+    const deleteColumn = (columnName) => {
+            boardStore.deleteColumn(columnName);
+    };
+   
     const pickupTask = (event, {fromColumnIndex, fromTaskIndex}) => {
         event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.dropEffect = 'move';
+        event.dataTransfer.setData('type', 'task');
         event.dataTransfer.setData('from-column-index', fromColumnIndex);
         event.dataTransfer.setData('from-task-index', fromTaskIndex);
-    };
-
-    const dropTask = (event, toColumnIndex) => {
-        const fromColumnIndex = event.dataTransfer.getData('from-column-index');
-        const fromTaskIndex = event.dataTransfer.getData('from-task-index');
-        boardStore.moveTask({
-            taskIndex: fromTaskIndex,
-            fromColumnIndex,
-            toColumnIndex
-        });
     };
 
 </script>
@@ -67,7 +58,7 @@
         :ui="{base: 'mx-none'}"
         @dragenter.prevent
         @dragover.prevent
-        @drop.stop="dropTask($event, columnIndex)"
+        
     >
         <div class="column-header mb-4">
             <div class="c-column-name">

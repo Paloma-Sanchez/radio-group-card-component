@@ -53,6 +53,11 @@ export const useBoardStore = defineStore('boardStore', () => {
          }  ;               
     };
 
+    const moveColumn = (initialColumnIndex, toColumnIndex) => {
+        const column = board.value.columns.splice(initialColumnIndex, 1)[0];
+        board.value.columns.splice(toColumnIndex, 0, column);
+    };
+
     const moveTask = ({taskIndex, fromColumnIndex, toColumnIndex}) => {
         const task = board.value.columns[fromColumnIndex].tasks.splice(taskIndex, 1)[0];
         board.value.columns[toColumnIndex].tasks.push(task);
@@ -75,6 +80,7 @@ export const useBoardStore = defineStore('boardStore', () => {
         deleteColumn,
         deleteTask,
         modifyTask,
+        moveColumn,
         moveTask,
         toggleMaskVisibility
     };
