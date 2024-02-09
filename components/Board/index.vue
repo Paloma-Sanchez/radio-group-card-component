@@ -1,5 +1,5 @@
 <script setup>
-    import { useBoardStore } from '../stores/boardStore';
+    import { useBoardStore } from '~/stores/boardStore';
     const boardStore = useBoardStore();
     const newColumnName = ref('');
     const maskIsVisible = computed(()=> boardStore.maskIsVisible);

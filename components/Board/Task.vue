@@ -2,6 +2,7 @@
     const boardStore = useBoardStore();
     const modifyTaskField = ref(false);
     const showModifyTaskMenu = ref(false);
+    const router = useRouter();
 
     const props = defineProps({
         task:{
@@ -16,7 +17,7 @@
             type:Number,
             required:true
         }
-    })
+    });
 
     const newTaskName = ref(props.task.name);
     const newTaskDescription = ref(props.task.description);
@@ -25,15 +26,19 @@
         console.log('modifying');
         boardStore.modifyTask(taskIndex, columnIndex, newTaskName, newTaskDescription);
         modifyTaskField.value = false;
-    }
+    };
     const deleteTask = (taskIndex, columnIndex) => {
         console.log('deleting');
         boardStore.deleteTask(taskIndex, columnIndex)
-    }
+    };
+
+    const goToTask = (taskId) => {
+        router.push(`/e1fc641b-0e18-4256-bed7-d7cd91d4c1ac/${taskId}`);
+    };
 
     const onOpenModifyTaskMenu = () => {
         boardStore.toggleMaskVisibility();
-    }
+    };
 
     /*
      <UButton 
@@ -53,11 +58,14 @@
         :ui="{ body: {padding: 'py-1 sm:p-1' } }"
     >
         <div 
-            class="flex justify-between items-center  "
+            class="flex justify-between cursor-pointer"
             @mouseenter="()=>modifyTaskField?'': showModifyTaskMenu = true"
             @mouseleave="()=>modifyTaskField?'': showModifyTaskMenu = false"
+            @click="goToTask(task.id)"    
         >
-            <div class="c-task-content ">
+            <div 
+                class="c-task-content  "
+            >
                 <div v-if="!modifyTaskField" class="h-8">
                     <strong>{{ task.name }}</strong>
                     <p>{{ task.description }}</p>

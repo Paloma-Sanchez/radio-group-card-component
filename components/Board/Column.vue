@@ -1,5 +1,5 @@
 <script setup>
-    import { useBoardStore } from '../stores/boardStore';
+    import { useBoardStore } from '~/stores/boardStore';
     import { v4 as uuidv4 } from 'uuid';
     const newTaskDescription = ref('');
     const newTaskName = ref('')
@@ -26,7 +26,7 @@
 
     const deleteColumn = (columnName) => {
             boardStore.deleteColumn(columnName);
-        }
+    };
 
     const addTask = (columnIndex, name, description) => {
         const newId = uuidv4();
@@ -35,14 +35,29 @@
                             name: newTaskName.value,
                             description: newTaskDescription.value
                         };
-        console.log(columnIndex);
+        //console.log(columnIndex);
         boardStore.addTask(columnIndex, newTask);
         newTaskName.value='';
         newTaskDescription.value='';
         addNewTaskField.value=false;
-    }
+    };
 
-    
+    const pickupTask = (event, {fromColumnIndex, fromTaskIndex}) => {
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.dropEffect = 'move';
+        event.dataTransfer.setData('from-column-index', fromColumnIndex);
+        event.dataTransfer.setData('from-task-index', fromTaskIndex);
+    };
+
+    const dropTask = (event, toColumnIndex) => {
+        const fromColumnIndex = event.dataTransfer.getData('from-column-index');
+        const fromTaskIndex = event.dataTransfer.getData('from-task-index');
+        boardStore.moveTask({
+            taskIndex: fromTaskIndex,
+            fromColumnIndex,
+            toColumnIndex
+        });
+    };
 
 </script>
 
@@ -50,6 +65,9 @@
     <UContainer 
         class="c-column column px-2 mx-"
         :ui="{base: 'mx-none'}"
+        @dragenter.prevent
+        @dragover.prevent
+        @drop.stop="dropTask($event, columnIndex)"
     >
         <div class="column-header mb-4">
             <div class="c-column-name">
@@ -107,11 +125,16 @@
                         'z-20':maskIsVisible
                     }
                 ]"
-                >
+            >
                 <BoardTask 
                     :task="task"
                     :columnIndex="columnIndex"
                     :taskIndex="taskIndex"
+                    draggable="true"
+                    @dragstart="pickupTask($event, {
+                        fromColumnIndex: columnIndex,
+                        fromTaskIndex:taskIndex
+                    })"
                 />
             </li>
         </ul>

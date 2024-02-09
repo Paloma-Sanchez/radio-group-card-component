@@ -1,15 +1,23 @@
 <script setup>
-import { useBoardStore } from '../stores/boardStore';
+import { useBoardStore } from '~/stores/boardStore';
 const boardStore = useBoardStore();
 const board = computed(() => boardStore.board);
 const route = useRoute();
+const router = useRouter();
 const boardLoading = computed(() => boardStore.boardLoading);
 const maskIsVisible = computed(() => boardStore.maskIsVisible);
+const isModalOpen =computed(() =>{
+    return route.name === 'boardId-index-taskId';
+});
+
+const closeModal = () => {
+    router.push(`/${board.value.id}`);
+};
 
 onBeforeMount(async() => await boardStore.loadSelectedBoard(route.params.boardId));
 </script>
 <template>
-    <div 
+    <main 
         v-if="!boardLoading && board !== null"  
         :style="{backgroundImage: `url('${board.url}')`}"
         class="c-board-id absolute h-full top-0 left-8 rounded"    
@@ -22,6 +30,12 @@ onBeforeMount(async() => await boardStore.loadSelectedBoard(route.params.boardId
         </div>
         <BoardTopBar :board="board"/>
         <Board :board="board"/>
+    </main>
+    <div 
+        v-show="isModalOpen"
+        class="task-bg"
+        @click.self="closeModal"
+    >
+        <NuxtPage :key="route.fullPath"/>
     </div>
-    
 </template>
