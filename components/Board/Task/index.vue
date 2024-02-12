@@ -1,14 +1,13 @@
 <script setup>
     import { useBoardStore } from '~/stores/boardStore';
     const boardStore = useBoardStore();
-    
     const cursorOverTask = ref(false);
     let modifyTaskMenuOpen = ref(false);
     const showModifyTaskButton = ref(false);
+    const boardId = computed(() => boardStore.board.id);
     const maskIsVisible = computed(()=> boardStore.maskIsVisible);
     const selectedTaskId = computed(() => boardStore.selectedTaskId);
     const taskFieldActive = computed(() => boardStore.taskFieldActive);
-
 
     watch([modifyTaskMenuOpen, cursorOverTask, taskFieldActive, maskIsVisible, showModifyTaskButton], ()=>{
         if(modifyTaskMenuOpen.value){
@@ -66,7 +65,7 @@
 
     const goToTask = (taskId) => {
         boardStore.toggleMaskVisibility();
-        router.push(`/e1fc641b-0e18-4256-bed7-d7cd91d4c1ac/${taskId}`);
+        router.push(`/${boardId.value}/${taskId}`);
         if(maskIsVisible.value){
             boardStore.toggleMaskVisibility();
         }
@@ -141,7 +140,7 @@
                 <div 
                     v-if="!taskFieldActive || selectedTaskId !==task.id" 
                     class="h-8"
-                    @click.self="goToTask(task.id)"   
+                    @click="goToTask(task.id)"   
                 >
                     <strong>{{ task.name }}</strong>
                     <p>{{ task.description }}</p>

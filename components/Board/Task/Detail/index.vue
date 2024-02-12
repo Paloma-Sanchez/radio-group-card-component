@@ -1,5 +1,7 @@
 <script setup>
-
+import { useBoardStore } from '~/stores/boardStore';
+const boardStore = useBoardStore();
+const board = boardStore.board;
 const props = defineProps({
     task:{
         type:Object,
@@ -15,7 +17,7 @@ const props = defineProps({
         >
             {{task.name}}
         </h3>
-        <p class="text-sm font-light mb-6">is in </p>
+        <p class="text-sm font-light mb-6">is in {{ board.name }} </p>
         <h4 class="font-semibold mb-2">
             Description
         </h4>
