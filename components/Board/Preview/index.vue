@@ -34,7 +34,7 @@
             <div 
                 
             >
-                <p class="text-slate-50 p-4 text-lg font-semibold">
+                <p class="text-slate-50 p-4 text-lg font-semibold h-max aspect-video">
                     {{ boardName }}
                 </p>
             </div>

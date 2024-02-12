@@ -2,7 +2,7 @@
 import { useBoardStore } from "~/stores/boardStore";
 const boardStore = useBoardStore();
 const route = useRoute();
-console.log('firstboard', boardStore.board);
+
 /*onMounted(() => {
     if(boardStore.board === null){
         boardStore.loadSelectedBoard('e1fc641b-0e18-4256-bed7-d7cd91d4c1ac');
@@ -14,15 +14,12 @@ const task = computed(() => {
 });
 </script>
 <template>
-  <div class="c-task-detail flex justify-center -top-full left-8">
+  <div class="c-task-detail flex justify-center -top-full left-8 w-screen">
     <div 
         v-if="boardStore.board !== null"
-        class="w-[768px] bg-white mt-10"
+        class="w-[768px] mt-28 h-3/4"
     >
-        <h3>{{task.name}}</h3>
-        <p>is in </p>
-        <h4>Description</h4>
-        <p>{{ task.description }}</p>
+       <BoardTaskDetail :task="task"/>
     </div>
 </div>
 </template>

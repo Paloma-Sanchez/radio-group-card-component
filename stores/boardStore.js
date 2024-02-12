@@ -6,6 +6,8 @@ export const useBoardStore = defineStore('boardStore', () => {
     const board = ref(null);
     const boardLoading = ref(false);
     const maskIsVisible = ref(false);
+    const taskFieldActive = ref(false);
+    const selectedTaskId = ref(0);
 
     //Getters
     const getSelectedTask = computed(() => {
@@ -58,21 +60,32 @@ export const useBoardStore = defineStore('boardStore', () => {
         board.value.columns.splice(toColumnIndex, 0, column);
     };
 
-    const moveTask = ({taskIndex, fromColumnIndex, toColumnIndex}) => {
-        const task = board.value.columns[fromColumnIndex].tasks.splice(taskIndex, 1)[0];
-        board.value.columns[toColumnIndex].tasks.push(task);
+    const moveTask = ({fromTaskIndex, toTaskIndex, fromColumnIndex, toColumnIndex}) => {
+        const task = board.value.columns[fromColumnIndex].tasks.splice(fromTaskIndex, 1)[0];
+        board.value.columns[toColumnIndex].tasks.splice(toTaskIndex, 0, task);
     };
 
     const toggleMaskVisibility = () => {
-        return maskIsVisible.value = ! maskIsVisible.value;
+        maskIsVisible.value = ! maskIsVisible.value;
     };
+
+    const setSelectedTaskId = (taskId) => {
+        selectedTaskId.value = taskId
+    };
+
+    const toggleTaskFieldVisibility = () => {
+        taskFieldActive.value = !taskFieldActive.value;        
+    }
+
 
     return {
         boards,
         board,
         boardLoading,
         maskIsVisible,
+        selectedTaskId,
         getSelectedTask,
+        taskFieldActive,
         loadBoards,
         loadSelectedBoard,
         addColumn,
@@ -82,6 +95,8 @@ export const useBoardStore = defineStore('boardStore', () => {
         modifyTask,
         moveColumn,
         moveTask,
-        toggleMaskVisibility
+        toggleMaskVisibility,
+        toggleTaskFieldVisibility,
+        setSelectedTaskId,
     };
 })

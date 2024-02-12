@@ -3,13 +3,19 @@
     const boardStore = useBoardStore();
     const newColumnName = ref('');
     const maskIsVisible = computed(()=> boardStore.maskIsVisible);
+    const boardColumn = ref(null);
    
     const props = defineProps({
         board:{
             type:Object,
             required:true
         }
-    })
+    });
+
+    const toggleTaskMenuOpenFromBoard = () => {
+        console.log('passing to column');
+        boardColumn.value.toggleTaskMenuOpenFromColumn();
+    }
 
     const addColumn = () => {
         boardStore.addColumn(newColumnName.value);
@@ -17,29 +23,30 @@
     };
 
     const pickupColumn = (event, initialColumnIndex) => {
-        console.log('dragging column');
         event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.dropEffect = 'move';
+        event.dataTransfer.setData('type', 'column');
         event.dataTransfer.setData('initial-column-index', initialColumnIndex);
     };
 
-    const dropItem = (event, toColumnIndex) => {
+    const dropItem = (event, {toColumnIndex, toTaskIndex}) => {
         const type = event.dataTransfer.getData('type');
         if(type === 'task'){
-            console.log('dragging task');
             const fromColumnIndex = event.dataTransfer.getData('from-column-index');
             const fromTaskIndex = event.dataTransfer.getData('from-task-index');
             boardStore.moveTask({
-                taskIndex: fromTaskIndex,
+                fromTaskIndex: fromTaskIndex,
+                toTaskIndex: toTaskIndex,
                 fromColumnIndex,
                 toColumnIndex
             });
-        } else{
+        } else if(type === 'column'){
             const initialColumnIndex = event.dataTransfer.getData('initial-column-index');
-            console.log('dragging column', initialColumnIndex, toColumnIndex);
             boardStore.moveColumn(initialColumnIndex, toColumnIndex);
-        }
+        };
     };
+
+
 </script>
 <template>
     <div 
@@ -47,10 +54,17 @@
             'board-wrapper',
             {
             'relative':maskIsVisible,
-            '-top-full': maskIsVisible
+            '-top-[115%]': maskIsVisible
             }
         ]" 
     >
+        <BoardColumn  
+            :column="{}"
+            :columnIndex="9999"
+            :maskIsVisible="false" 
+            ref="boardColumn" 
+            class="hidden"
+        />
         <main 
             class="board"
         >
@@ -64,7 +78,8 @@
                 @dragstart.self="pickupColumn($event, columnIndex)" 
                 @dragenter.prevent
                 @dragover.prevent
-                @drop.stop="dropItem($event, columnIndex)"
+                @drop.stop="dropItem($event, {toColumnIndex: columnIndex})"
+                @dropItem="dropItem"
             />
             <UContainer class="column mx-" >
                     <UInput 

@@ -8,8 +8,9 @@
     const boardStore = useBoardStore();
     const showEditColumn = ref(false);
     const addNewTaskButtonLabel = ref('');
-    
-    defineProps({
+    const selectedTaskId = computed(() => boardStore.selectedTaskId);
+
+    const props = defineProps({
         column:{
             type: Object,
             required:true
@@ -58,7 +59,6 @@
         :ui="{base: 'mx-none'}"
         @dragenter.prevent
         @dragover.prevent
-        
     >
         <div class="column-header mb-4">
             <div class="c-column-name">
@@ -76,15 +76,16 @@
                 />
             </div>
             <div class="c-column-menu flex">
-                <div v-if="showEditColumn">
+                <div v-if="showEditColumn && !editColumnName">
                     <UButton
                         icon="i-heroicons-pencil-square"
                         size="sm"
-                        color="primary"
+                        color="sky"
                         square
                         variant="solid"
                         class="mr-2"
-                        @click="editColumnName = !editColumnName"
+                        @click="() => {editColumnName = !editColumnName  
+                                        showEditColumn= !showEditColumn} "
                     />
                     <UButton
                         icon="i-heroicons-trash"
@@ -96,7 +97,7 @@
                     />
                 </div>
                 <UButton
-                    class="c-open-name-menu-button mr-2 transition-transform ease-in-out hover:scale-120 duration-300"
+                    class="c-open-name-menu-button mr-2 transition-transform ease-in-out hover:scale-150 duration-100"
                     icon="i-heroicons-ellipsis-vertical"
                     size="sm"
                     color="white"
@@ -112,8 +113,8 @@
                 :key="task.id"
                 :class="[
                     {
-                        'relative': maskIsVisible,
-                        'z-20':maskIsVisible
+                        'relative':(maskIsVisible && task.id === selectedTaskId),
+                        'z-20':(maskIsVisible && task.id === selectedTaskId)
                     }
                 ]"
             >
@@ -122,10 +123,17 @@
                     :columnIndex="columnIndex"
                     :taskIndex="taskIndex"
                     draggable="true"
-                    @dragstart="pickupTask($event, {
-                        fromColumnIndex: columnIndex,
-                        fromTaskIndex:taskIndex
+                    @dragstart="
+                        pickupTask($event, {
+                            fromColumnIndex: columnIndex,
+                            fromTaskIndex:taskIndex
                     })"
+                    @drop.stop=" $emit(
+                        'dropItem', $event, {
+                            toColumnIndex: columnIndex,
+                            toTaskIndex: taskIndex
+                        })
+                    "
                 />
             </li>
         </ul>
