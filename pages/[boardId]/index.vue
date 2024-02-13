@@ -46,6 +46,11 @@ const onMaskClick = () => {
         </div>
         <BoardTopBar 
             :board="board"
+            :class="[
+                {
+                '-top-[115%]': maskIsVisible
+                }
+            ]"
         />
         <Board 
             :board="board"

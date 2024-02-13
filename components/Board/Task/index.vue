@@ -149,11 +149,15 @@
                     <UForm  @submit="modifyTask(taskIndex, columnIndex)">
                         <UFormGroup label="Task Name" required>
                             <UInput 
-                            v-model="newTaskName" 
-                            variant="outline" 
-                            placeholder="Task Name" />
+                                v-model="newTaskName" 
+                                variant="outline" 
+                                placeholder="Task Name" 
+                            />
                         </UFormGroup>
-                        <UFormGroup label="Task Description">
+                        <UFormGroup 
+                            label="Task Description"
+                            class="mb-4"    
+                        >
                             <UTextarea v-model="newTaskDescription"/>
                         </UFormGroup>
                         <UButton 

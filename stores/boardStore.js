@@ -8,6 +8,7 @@ export const useBoardStore = defineStore('boardStore', () => {
     const maskIsVisible = ref(false);
     const taskFieldActive = ref(false);
     const selectedTaskId = ref(0);
+    const selectedTask =ref({});
 
     //Getters
     const getSelectedTask = computed(() => {
@@ -18,6 +19,22 @@ export const useBoardStore = defineStore('boardStore', () => {
             };
         };
     });
+
+    const getSelectedTaskAndIndexes = (taskId) => {
+        let columnIndex = 0;
+        for(const column of board.value.columns){
+            const task = column.tasks.find(task => task.id === taskId);
+            if(task) {
+                const taskIndex = column.tasks.findIndex(task => task.id === taskId);
+               return selectedTask.value= {
+                                    task:task,
+                                    taskIndex,
+                                    columnIndex
+                                    }
+            };
+            columnIndex++;
+        };
+    };
 
     //Actions
     const loadBoards = async() => {
@@ -49,7 +66,8 @@ export const useBoardStore = defineStore('boardStore', () => {
     };
 
     const modifyTask = (taskIndex, columnIndex, newName, newDescription) => {
-         let taskTochange = board.value.columns[columnIndex].tasks[taskIndex];
+
+        let taskTochange = board.value.columns[columnIndex].tasks[taskIndex];
          board.value.columns[columnIndex].tasks[taskIndex] = {
             ...taskTochange, name:newName, description: newDescription
          }  ;               
@@ -84,7 +102,9 @@ export const useBoardStore = defineStore('boardStore', () => {
         boardLoading,
         maskIsVisible,
         selectedTaskId,
+        selectedTask,
         getSelectedTask,
+        getSelectedTaskAndIndexes,
         taskFieldActive,
         loadBoards,
         loadSelectedBoard,
