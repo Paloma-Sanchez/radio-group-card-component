@@ -27,7 +27,6 @@ const state = reactive({
 
 const onSubmit = () => {
     console.log('submitting',state.newTaskName);
-    
     boardStore.modifyTask(props.taskIndex, props.columnIndex, state.newTaskName, state.newTaskDescription);
     console.log(props.task);
     boardStore.getSelectedTaskAndIndexes(route.params.taskId);
@@ -46,7 +45,7 @@ watch(propTask, ()=>{
 
 <template>
     <div 
-        class="h-full bg-sky-800 rounded p-6 text-sky-100 "
+        class="h-full w-11/12 mx-auto bg-slate-800 rounded p-6 text-sky-100 "
         @click.self="nameFieldActive=false"
     >
         <h3 
@@ -74,6 +73,8 @@ watch(propTask, ()=>{
             <UButton
                 v-if="task.description && !descriptionFieldActive"
                 @click="descriptionFieldActive=true"
+                color="sky"
+                size="xs"
             >
                 Edit
             </UButton>
@@ -85,9 +86,13 @@ watch(propTask, ()=>{
             <UFormGroup>
                 <UTextarea 
                     v-model="state.newTaskDescription"
-                    variant="outline" 
+                    variant="none" 
+                    color="sky"
+                    autoresize
+                    :rows="2"
                     placeholder="Task Name"
                     class="mb-4"
+                    :ui="{variant:{none:'bg-slate-500/60'}}"
                 />
             </UFormGroup>
             <UButton

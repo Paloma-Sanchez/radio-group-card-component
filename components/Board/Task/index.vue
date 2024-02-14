@@ -1,33 +1,37 @@
 <script setup>
     import { useBoardStore } from '~/stores/boardStore';
     const boardStore = useBoardStore();
+    const toast = useToast();
     const cursorOverTask = ref(false);
-    let modifyTaskMenuOpen = ref(false);
+    const modifyTaskMenuOpen = ref(false);
     const showModifyTaskButton = ref(false);
     const boardId = computed(() => boardStore.board.id);
     const maskIsVisible = computed(()=> boardStore.maskIsVisible);
     const selectedTaskId = computed(() => boardStore.selectedTaskId);
     const taskFieldActive = computed(() => boardStore.taskFieldActive);
 
-    watch([modifyTaskMenuOpen, cursorOverTask, taskFieldActive, maskIsVisible, showModifyTaskButton], ()=>{
-        if(modifyTaskMenuOpen.value){
-            showModifyTaskButton.value = true;
-        }else if(cursorOverTask.value ){
+    ///watcher to decide when to show the modifyTask Menu Button
+    watch([modifyTaskMenuOpen, cursorOverTask, taskFieldActive, maskIsVisible], ()=>{
+        
+        if(!maskIsVisible.value){
+            if(cursorOverTask.value){
+                showModifyTaskButton.value = true;
+            }else{
+                showModifyTaskButton.value = false;
+            }
+        }else{
             if(taskFieldActive.value){
                 showModifyTaskButton.value = false;
-            } else {
+            }else{
                 showModifyTaskButton.value = true;
-            }
-            
-        }else if(!cursorOverTask.value && !maskIsVisible.value){
-            showModifyTaskButton.value = false;
-            
-        }else{
-            showModifyTaskButton.value = false;
-        }
 
-        console.log('update button show = ' + showModifyTaskButton.value);
+            }
+        }
     });
+
+    watch(showModifyTaskButton,()=>{
+        console.log('watcher', showModifyTaskButton.value)
+    }, {immediate:true});
 
     const router = useRouter();
     
@@ -46,21 +50,21 @@
         }
     });
 
+    const state=reactive({
+        newTaskName: props.task.name,
+        newTaskDescription : props.task.description
 
-    const newTaskName = ref(props.task.name);
-    const newTaskDescription = ref(props.task.description);
-
-    const modifyTask = (taskIndex, columnIndex) => {
-        console.log('modifying');
-        boardStore.modifyTask(taskIndex, columnIndex, newTaskName, newTaskDescription);
-        boardStore.toggleTaskFieldVisibility();
-    };
-
+    });
+    
     const deleteTask = (taskIndex, columnIndex) => {
-        console.log('deleting', taskIndex, columnIndex);
         boardStore.toggleMaskVisibility();
         boardStore.deleteTask(taskIndex, columnIndex);
-        
+        toast.add({
+            title:'Task deleted',
+            description:`${props.task.name} has been deleted`,
+            icon: 'i-heroicons-trash',
+            color:'red'
+        });
     };
 
     const goToTask = (taskId) => {
@@ -69,6 +73,13 @@
         if(maskIsVisible.value){
             boardStore.toggleMaskVisibility();
         }
+    };
+
+    const modifyTask = (taskIndex, columnIndex) => {
+        console.log('modifying');
+        boardStore.modifyTask(taskIndex, columnIndex, newTaskName, newTaskDescription);
+        boardStore.toggleMaskVisibility();
+        boardStore.toggleTaskFieldVisibility();
     };
 
     const onOpenModifyTaskMenu = (event, taskId) => {
@@ -83,7 +94,7 @@
         console.log('toggled', modifyTaskMenuOpen.value);
     };
 
-
+    ///Array for dropdown
     const items = [
         [{
             label: 'Open task',
@@ -124,8 +135,19 @@
 <template>
     
     <UCard 
-        class="c-card mb-4 w-full hover:ring-sky-600 hover:ring " 
-        :ui="{ body: {padding: 'py-1 sm:p-1' } }"
+        :class="[
+            'c-card',
+            'mb-4',
+            'w-full',
+            'hover:ring-sky-600',
+            'hover:ring',
+            {
+                'bg-slate-800':taskFieldActive,
+                'text-slate-50':taskFieldActive,
+                'hover:ring-transparent':taskFieldActive
+            } 
+            ]" 
+        :ui="{ body: {padding: 'py-1 sm:p-1' }}"
     >
         <div 
             class="flex justify-between cursor-pointer"
@@ -145,11 +167,18 @@
                     <strong>{{ task.name }}</strong>
                     <p>{{ task.description }}</p>
                 </div>
-                <div v-else>
-                    <UForm  @submit="modifyTask(taskIndex, columnIndex)">
+                <div 
+                    v-else
+                    class="c-nodify-task-field-group"    
+                >
+                    <UForm  
+                        class="u-form"
+                        :state="state"
+                        @submit="modifyTask(taskIndex, columnIndex)"
+                    >
                         <UFormGroup label="Task Name" required>
                             <UInput 
-                                v-model="newTaskName" 
+                                v-model="state.newTaskName"
                                 variant="outline" 
                                 placeholder="Task Name" 
                             />
@@ -158,11 +187,13 @@
                             label="Task Description"
                             class="mb-4"    
                         >
-                            <UTextarea v-model="newTaskDescription"/>
+                            <UTextarea 
+                                v-model="state.newTaskDescription"
+                            />
                         </UFormGroup>
                         <UButton 
                             type="submit"
-                            color="gray"
+                            color="sky"
                             >
                             Save
                         </UButton>
@@ -172,7 +203,6 @@
             <div 
                 class="c-modify-task-menu flex" 
                 v-show="showModifyTaskButton"
-                   
             >
                 <UDropdown 
                     :items="items" 

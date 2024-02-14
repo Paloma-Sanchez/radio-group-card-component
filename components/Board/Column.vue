@@ -1,13 +1,14 @@
 <script setup>
     import { useBoardStore } from '~/stores/boardStore';
     import { v4 as uuidv4 } from 'uuid';
+    const boardStore = useBoardStore();
+    const toast = useToast();
+    const addNewTaskButtonLabel = ref('');
+    const addNewTaskField = ref(false);
+    const editColumnName = ref(false);
     const newTaskDescription = ref('');
     const newTaskName = ref('')
-    const editColumnName = ref(false);
-    const addNewTaskField = ref(false);
-    const boardStore = useBoardStore();
     const showEditColumn = ref(false);
-    const addNewTaskButtonLabel = ref('');
     const selectedTaskId = computed(() => boardStore.selectedTaskId);
 
     const props = defineProps({
@@ -41,6 +42,12 @@
 
     const deleteColumn = (columnName) => {
             boardStore.deleteColumn(columnName);
+            toast.add({
+                title:'Column deleted',
+                description:`${props.column.name} has been deleted`,
+                icon: 'i-heroicons-trash',
+                color:'red'
+            });
     };
    
     const pickupTask = (event, {fromColumnIndex, fromTaskIndex}) => {

@@ -1,4 +1,6 @@
 <script setup>
+    const starredVisible = ref(false);
+
     const props = defineProps({
         bgUrl:{
             type: String,
@@ -10,10 +12,14 @@
         },
         boardId:{
             type:String
+        },
+        board:{
+            type:Object,
+            required:true
         }
     });
 
-    console.log('url', props.bgUrl);
+    //console.log('url', props.bgUrl);
 </script>
 <template>
     <div 
@@ -25,20 +31,53 @@
             'bg-cover',
             'bg-center',
             'border-separate',
-            'border-orange-500'
+            'overflow-hidden',
+            'border-orange-500',
+            
         ]"
-
-        :style="{backgroundImage: `url('${bgUrl}')`}"
+        :style="{backgroundImage: `url('${board.url}')`}"
+        @mouseenter="starredVisible=true"
+        @mouseleave="starredVisible=false"
     >
-        <NuxtLink :to="`/${boardId}`">
+        <NuxtLink 
+            :class="[
+                'c-link-to-board-id',
+                'w-full',
+                'aspect-video',
+                'inline-block',
+                {
+                    'bg-slate-500/50':starredVisible
+                }
+                ]"
+            :to="`/${board.id}`"
+        >
             <div 
                 
             >
-                <p class="text-slate-50 p-4 text-lg font-semibold h-max aspect-video">
-                    {{ boardName }}
+                <p class="text-slate-50 pt-4 pl-4 text-lg font-semibold w-full h-full">
+                    {{ board.name }}
                 </p>
-            </div>
+            </div>     
         </NuxtLink>
+        <div
+                    
+                    :class="[
+                        'relative',
+                        '-top-[20%]',
+                        'left-[90%]',
+                        'w-fit',
+                        'text-slate-50',
+                        'pr-3',
+                        {
+                            'invisible':!starredVisible
+                        }
+                        ]"
+                    @click="$emit('toggleStarred')"
+                >
+                    <UIcon name="i-heroicons-star-solid" v-if="board.starred"/>
+                    <UIcon name="i-heroicons-star" v-else/>
+                </div>
+       
 </div>
 </template>
 

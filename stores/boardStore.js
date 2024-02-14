@@ -7,6 +7,7 @@ export const useBoardStore = defineStore('boardStore', () => {
     const boardLoading = ref(false);
     const maskIsVisible = ref(false);
     const taskFieldActive = ref(false);
+    const taskPencilButtonVisible = ref(false);
     const selectedTaskId = ref(0);
     const selectedTask =ref({});
 
@@ -86,6 +87,10 @@ export const useBoardStore = defineStore('boardStore', () => {
     const toggleMaskVisibility = () => {
         maskIsVisible.value = ! maskIsVisible.value;
     };
+    
+    const toggleTaskPencilButtonVisibility = () => {
+        taskPencilButtonVisible.value = !taskPencilButtonVisible.value;
+    }
 
     const setSelectedTaskId = (taskId) => {
         selectedTaskId.value = taskId;
@@ -109,6 +114,7 @@ export const useBoardStore = defineStore('boardStore', () => {
         getSelectedTask,
         getSelectedTaskAndIndexes,
         taskFieldActive,
+        taskPencilButtonVisible,
         loadBoards,
         loadSelectedBoard,
         addColumn,

@@ -59,7 +59,7 @@ const onMaskClick = () => {
     </main>
     <div 
         v-show="isModalOpen"
-        class="task-bg"
+        class="task-bg flex justify-center"
         @click.self="closeModal"
     >
         <NuxtPage :key="route.fullPath"/>
