@@ -30,7 +30,7 @@
 
         :style="{backgroundImage: `url('${bgUrl}')`}"
     >
-        <NuxtLink :to="`./${boardId}`">
+        <NuxtLink :to="`/${boardId}`">
             <div 
                 
             >

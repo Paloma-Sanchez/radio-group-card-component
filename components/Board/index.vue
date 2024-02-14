@@ -4,7 +4,11 @@
     const newColumnName = ref('');
     const maskIsVisible = computed(()=> boardStore.maskIsVisible);
     const boardColumn = ref(null);
-   
+
+    onMounted(() =>{
+        console.log('ref', boardColumn.value);
+    })
+
     const props = defineProps({
         board:{
             type:Object,
@@ -12,21 +16,9 @@
         }
     });
 
-    const toggleTaskMenuOpenFromBoard = () => {
-        console.log('passing to column');
-        boardColumn.value.toggleTaskMenuOpenFromColumn();
-    }
-
     const addColumn = () => {
         boardStore.addColumn(newColumnName.value);
         newColumnName.value = '';
-    };
-
-    const pickupColumn = (event, initialColumnIndex) => {
-        event.dataTransfer.effectAllowed = 'move';
-        event.dataTransfer.dropEffect = 'move';
-        event.dataTransfer.setData('type', 'column');
-        event.dataTransfer.setData('initial-column-index', initialColumnIndex);
     };
 
     const dropItem = (event, {toColumnIndex, toTaskIndex}) => {
@@ -46,6 +38,30 @@
         };
     };
 
+    const pickupColumn = (event, initialColumnIndex) => {
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.dropEffect = 'move';
+        event.dataTransfer.setData('type', 'column');
+        event.dataTransfer.setData('initial-column-index', initialColumnIndex);
+    };
+
+    const deactivateChildNewTaskFiled = () => {
+        boardColumn.value.forEach((column) => {
+            column.deactivateAddNewTaskField();
+        });
+    };
+
+    const deactivateChildEditColumnName = () => {
+        boardColumn.value.forEach((column) => {
+            column.deactivateEditColumnName();
+        });
+    };
+
+    const onClickOnMain = () => {
+        console.log('hey');
+        deactivateChildEditColumnName();
+        deactivateChildNewTaskFiled();
+    }
 
 </script>
 <template>
@@ -58,16 +74,11 @@
             }
         ]" 
     >
-        <BoardColumn  
-            :column="{}"
-            :columnIndex="9999"
-            :maskIsVisible="false" 
-            ref="boardColumn" 
-            class="hidden"
-        />
         <main 
-            class="board"
+            class="c-main-board board h-full"
+            @click.self="onClickOnMain"
         >
+            
             <BoardColumn 
                 v-for="(column, columnIndex) in board.columns" 
                 :key="column.name"
@@ -80,6 +91,7 @@
                 @dragover.prevent
                 @drop.stop="dropItem($event, {toColumnIndex: columnIndex})"
                 @dropItem="dropItem"
+                ref="boardColumn"
             />
             <UContainer class="column mx-" >
                     <UInput 

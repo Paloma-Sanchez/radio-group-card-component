@@ -51,6 +51,20 @@
         event.dataTransfer.setData('from-task-index', fromTaskIndex);
     };
 
+    const deactivateAddNewTaskField = () => {
+        addNewTaskField.value = false;
+    };
+
+    const deactivateEditColumnName = () => {
+        editColumnName.value = false;
+    };
+
+    defineExpose({
+        deactivateAddNewTaskField,
+        deactivateEditColumnName
+    })
+
+
 </script>
 
 <template>

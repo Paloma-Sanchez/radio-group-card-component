@@ -1,9 +1,8 @@
 <script setup>
 const sideBarShowing = ref(false);
 
-const onShowMenuButtonClick = () => {
+const onToggleSidebarVisibility = () => {
     sideBarShowing.value = ! sideBarShowing.value;
-    console.log(sideBarShowing.value);
 }
 </script>
 <template>
@@ -28,7 +27,7 @@ const onShowMenuButtonClick = () => {
             class="flex "
         >
             <p 
-                class="text-xl text-slate-100 mt-8 mx-auto"
+                class="text-xl text-slate-100 mt-8 mb-6 mx-auto"
             >
                 Your boards
             </p>
@@ -37,8 +36,9 @@ const onShowMenuButtonClick = () => {
             :class="[
                 'absolute',
                 '-right-2',
+                'top-8'
                 ]"
-            @click="onShowMenuButtonClick"
+            @click="onToggleSidebarVisibility"
         >
             <UButton
                 icon="i-heroicons-chevron-right-16-solid"
@@ -57,5 +57,8 @@ const onShowMenuButtonClick = () => {
                 v-else
             />
         </div>
+        <BoardSidebarList
+            @toggleSidebarVisibility="onToggleSidebarVisibility"
+        />
     </div>
 </template>

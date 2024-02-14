@@ -139,7 +139,7 @@
             >
                 <div 
                     v-if="!taskFieldActive || selectedTaskId !==task.id" 
-                    class="h-8"
+                    class="h-auto"
                     @click="goToTask(task.id)"   
                 >
                     <strong>{{ task.name }}</strong>

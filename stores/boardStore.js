@@ -38,7 +38,7 @@ export const useBoardStore = defineStore('boardStore', () => {
 
     //Actions
     const loadBoards = async() => {
-        const {data} = await useFetch('http://localhost:3000/boards');
+        const {data} = await useFetch('/api/board');
         return boards.value = data.value; 
     };
 
@@ -88,13 +88,16 @@ export const useBoardStore = defineStore('boardStore', () => {
     };
 
     const setSelectedTaskId = (taskId) => {
-        selectedTaskId.value = taskId
+        selectedTaskId.value = taskId;
+    };
+
+    const toggleStarred = () => {
+
     };
 
     const toggleTaskFieldVisibility = () => {
         taskFieldActive.value = !taskFieldActive.value;        
-    }
-
+    };
 
     return {
         boards,
@@ -116,6 +119,7 @@ export const useBoardStore = defineStore('boardStore', () => {
         moveColumn,
         moveTask,
         toggleMaskVisibility,
+        toggleStarred,
         toggleTaskFieldVisibility,
         setSelectedTaskId,
     };
