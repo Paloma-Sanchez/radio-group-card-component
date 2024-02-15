@@ -1,78 +1,116 @@
 {
-    "boards":[
+  "boards": [
+    {
+      "name": "task-board",
+      "id": "e1fc641b-0e18-4256-bed7-d7cd91d4c1ac",
+      "url": "https://www.peruhop.com/wp-content/uploads/full-day-tour-main.jpg",
+      "starred": true,
+      "columns": [
         {
-            "name": "task-board",
-            "id": "e1fc641b-0e18-4256-bed7-d7cd91d4c1ac",
-            "url": "https://www.peruhop.com/wp-content/uploads/full-day-tour-main.jpg",
-            "starred": true,
-            "columns": [{
-                "name": "todo",
-                "tasks":[{
-                    "id": "80a7e736-e185-4246-a6ea-3c050a1085a6",
-                    "name": "task #1",
-                    "description": ""
-                },
-                {
-                    "id": "f76ea49b-ac92-41be-8477-90657d501be0",
-                    "name": "task #4",
-                    "description": ""
-                }
-                ]
+          "name": "todossss",
+          "tasks": [
+            {
+              "id": "80a7e736-e185-4246-a6ea-3c050a1085a6",
+              "name": "task #1",
+              "description": "",
+              "cover": ""
             },
             {
-                "name": "in progress",
-                "tasks":[{
-                    "id": "876bd2ac-4f84-4a90-8f28-82f0da43ac23",
-                    "name": "task #2",
-                    "description": ""
-                }]
-            },
-            {
-                "name": "complete",
-                "tasks":[{
-                    "id": "0fa5e635-4364-4df4-b4a1-edc7f0dc821f",
-                    "name": "task #3",
-                    "description": ""
-                }]
+              "id": "f76ea49b-ac92-41be-8477-90657d501be0",
+              "name": "task #4",
+              "description": "",
+              "cover": ""
             }
-            ]
+          ]
         },
         {
-            "name": "task-board",
-            "id": "5edd3944-4baf-44d2-a855-5031ddb4d3c5",
-            "url": "https://humanidades.com/wp-content/uploads/2018/09/Per%C3%BA-5-e1578616930994-800x416.jpg",
-            "starred": false,
-            "columns": [{
-                "name": "todo",
-                "tasks":[{
-                    "id": "80a7e736-e185-4246-a6ea-3c050a1085a6",
-                    "name": "task #1",
-                    "description": ""
-                },
-                {
-                    "id": "f76ea49b-ac92-41be-8477-90657d501be0",
-                    "name": "task #4",
-                    "description": ""
-                }
-                ]
+          "name": "in progress",
+          "tasks": [
+            {
+              "id": "157c993f-8f00-4875-b1d9-7a0d9d562bb4",
+              "name": "task #10",
+              "description": ""
             },
             {
-                "name": "in progress",
-                "tasks":[{
-                    "id": "876bd2ac-4f84-4a90-8f28-82f0da43ac23",
-                    "name": "task #2",
-                    "description": ""
-                }]
+              "id": "5c80883a-2ee0-4b6d-9ae5-76cb937213e0",
+              "name": "task #12",
+              "description": ""
             },
             {
-                "name": "complete",
-                "tasks":[{
-                    "id": "0fa5e635-4364-4df4-b4a1-edc7f0dc821f",
-                    "name": "task #3",
-                    "description": ""
-                }]
+              "id": "9f10b710-b8b7-4891-b3f2-ddb3f66c14a7",
+              "name": "task #79",
+              "description": "blabla"
             }
-            ]
+          ]
+        },
+        {
+          "name": "completed",
+          "tasks": []
         }
-    ]
+      ]
+    },
+    {
+      "name": "task-board2",
+      "id": "5edd3944-4baf-44d2-a855-5031ddb4d3c5",
+      "url": "https://humanidades.com/wp-content/uploads/2018/09/Per%C3%BA-5-e1578616930994-800x416.jpg",
+      "starred": false,
+      "columns": [
+        {
+          "name": "todo",
+          "tasks": [
+            {
+              "id": "80a7e736-e185-4246-a6ea-3c050a1085a6",
+              "name": "task #1",
+              "description": "",
+              "cover": ""
+            },
+            {
+              "id": "f76ea49b-ac92-41be-8477-90657d501be0",
+              "name": "task #4",
+              "description": "",
+              "cover": ""
+            }
+          ]
+        },
+        {
+          "name": "in progress",
+          "tasks": [
+            {
+              "id": "876bd2ac-4f84-4a90-8f28-82f0da43ac23",
+              "name": "task #2",
+              "description": "",
+              "cover": ""
+            },
+            {
+              "id": "e41c8873-f1b2-48f8-a91b-57ff36760930",
+              "name": "task #50",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "complete",
+          "tasks": [
+            {
+              "id": "0fa5e635-4364-4df4-b4a1-edc7f0dc821f",
+              "name": "task #3",
+              "description": "",
+              "cover": ""
+            }
+          ]
+        },
+        {
+          "name": "omg",
+          "tasks": []
+        }
+      ]
+    },
+    {
+      "id": "123",
+      "name": "weekly-board",
+      "url": "https://www.peruhop.com/wp-content/uploads/full-day-tour-main.jpg",
+      "starred": "false",
+      "columns": "[]"
+    }
+  ]
 }

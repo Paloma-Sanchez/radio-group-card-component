@@ -78,8 +78,7 @@
     };
 
     const modifyTask = (taskIndex, columnIndex) => {
-        console.log('modifying');
-        boardStore.modifyTask(taskIndex, columnIndex, newTaskName, newTaskDescription);
+        boardStore.modifyTask(taskIndex, columnIndex, state.newTaskName, state.newTaskDescription);
         boardStore.toggleMaskVisibility();
         boardStore.toggleTaskFieldVisibility();
     };

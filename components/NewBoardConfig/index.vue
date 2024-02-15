@@ -24,12 +24,16 @@ const state = reactive({
             <UFormGroup 
                 name="radio" 
                 label="Background"
+                class="uformgroup-bgs"
+                
             >
                 <URadio 
                     v-for="option in options" 
                     :key="option.value" 
                     v-model="state.radio" 
                     v-bind="option"
+                    :ui="{label:'relative -left-8'}"
+                    
                 >
                     <template #label>
                         <div

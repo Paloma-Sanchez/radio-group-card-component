@@ -2,6 +2,7 @@
     import { useBoardStore } from '~/stores/boardStore';
     import { v4 as uuidv4 } from 'uuid';
     const boardStore = useBoardStore();
+    const route = useRoute();
     const toast = useToast();
     const addNewTaskButtonLabel = ref('');
     const addNewTaskField = ref(false);
@@ -27,40 +28,22 @@
 
     //State for new task form
     const state = reactive({
+        newColumnName:props.column.name,
         newTaskDescription :'',
         newTaskName :''
     })
 
-    const addTask = (columnIndex, name, description) => {
+    const addTask = async (columnIndex) => {
         const newId = uuidv4();
         const newTask = {
                             id: newId,
-                            name: newTaskName.value,
-                            description: newTaskDescription.value
+                            name: state.newTaskName,
+                            description: state.newTaskDescription
                         };
-        //console.log(columnIndex);
         boardStore.addTask(columnIndex, newTask);
-        newTaskName.value='';
-        newTaskDescription.value='';
+        state.newTaskName='';
+        state.newTaskDescription='';
         addNewTaskField.value=false;
-    };
-
-    const deleteColumn = (columnName) => {
-            boardStore.deleteColumn(columnName);
-            toast.add({
-                title:'Column deleted',
-                description:`${props.column.name} has been deleted`,
-                icon: 'i-heroicons-trash',
-                color:'red'
-            });
-    };
-   
-    const pickupTask = (event, {fromColumnIndex, fromTaskIndex}) => {
-        event.dataTransfer.effectAllowed = 'move';
-        event.dataTransfer.dropEffect = 'move';
-        event.dataTransfer.setData('type', 'task');
-        event.dataTransfer.setData('from-column-index', fromColumnIndex);
-        event.dataTransfer.setData('from-task-index', fromTaskIndex);
     };
 
     const deactivateAddNewTaskField = () => {
@@ -72,17 +55,42 @@
         editColumnName.value = false;
     };
 
+    const deleteColumn = (columnName) => {
+            boardStore.deleteColumn(columnName);
+            toast.add({
+                title:'Column deleted',
+                description:`${props.column.name} has been deleted`,
+                icon: 'i-heroicons-trash',
+                color:'red'
+            });
+    };
+
+    const onChangedColumnName = () => {
+        if(props.column.name !== state.newColumnName){
+            boardStore.modifyColumn(props.columnIndex, state.newColumnName);
+        }
+        editColumnName.value = false;
+    }
+   
+    const pickupTask = (event, {fromColumnIndex, fromTaskIndex}) => {
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.dropEffect = 'move';
+        event.dataTransfer.setData('type', 'task');
+        event.dataTransfer.setData('from-column-index', fromColumnIndex);
+        event.dataTransfer.setData('from-task-index', fromTaskIndex);
+    };
+
+    //Exposing functions so that they are accessible by parent
     defineExpose({
         deactivateAddNewTaskField,
         deactivateEditColumnName
-    })
-
+    });
 
 </script>
 
 <template>
     <UContainer 
-        class="c-column column px-2 mx-"
+        class="c-column column px-2 mx- min-w-[256px] max-w-[256px]"
         :ui="{base: 'mx-none'}"
         @dragenter.prevent
         @dragover.prevent
@@ -92,15 +100,20 @@
                 <h2 
                     v-if="!editColumnName"
                     class="text-white"
+                    @click="editColumnName=true"
                 >
                     {{ column.name }}
                 </h2>   
-                <UInput 
+                <UForm
                     v-else 
-                    type="text" 
-                    v-model="column.name" 
-                    @keyup.enter="editColumnName= !editColumnName"
-                />
+                    :state="state"
+                    @keydown.enter.exact="onChangedColumnName"
+                >
+                    <UInput 
+                        type="text" 
+                        v-model="state.newColumnName" 
+                    />
+                </UForm>
             </div>
             <div class="c-column-menu flex">
                 <div v-if="showEditColumn && !editColumnName">

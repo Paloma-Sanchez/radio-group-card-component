@@ -5,10 +5,6 @@
     const maskIsVisible = computed(()=> boardStore.maskIsVisible);
     const boardColumn = ref(null);
 
-    onMounted(() =>{
-        console.log('ref', boardColumn.value);
-    })
-
     const props = defineProps({
         board:{
             type:Object,
@@ -58,7 +54,6 @@
     };
 
     const onClickOnMain = () => {
-        console.log('hey');
         deactivateChildEditColumnName();
         deactivateChildNewTaskFiled();
     }
@@ -93,7 +88,7 @@
                 @dropItem="dropItem"
                 ref="boardColumn"
             />
-            <UContainer class="column mx-" >
+            <UContainer class="column mx- min-w-[256px] max-w-[256px]" >
                     <UInput 
                         type="text"
                         placeholder=" Create new column" 
