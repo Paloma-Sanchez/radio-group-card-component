@@ -18,8 +18,7 @@ const props = defineProps({
     }
 });
 
-
-
+//State for changing existing task form
 const state = reactive({
     newTaskName: props.task.name,
     newTaskDescription : props.task.description 

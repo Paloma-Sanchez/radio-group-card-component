@@ -1,6 +1,7 @@
 <script setup>
     import { useBoardStore } from '~/stores/boardStore';
     const boardStore = useBoardStore();
+    const router = useRouter();
     const toast = useToast();
     const cursorOverTask = ref(false);
     const modifyTaskMenuOpen = ref(false);
@@ -33,7 +34,7 @@
         console.log('watcher', showModifyTaskButton.value)
     }, {immediate:true});
 
-    const router = useRouter();
+    const emit = defineEmits(['hideNewTaskField'])
     
     const props = defineProps({
         task:{
@@ -73,6 +74,7 @@
         if(maskIsVisible.value){
             boardStore.toggleMaskVisibility();
         }
+        emit('hideNewTaskField');
     };
 
     const modifyTask = (taskIndex, columnIndex) => {

@@ -22,6 +22,7 @@
             <BoardSidebarPreview
                 :board="boardPreview"
                 @toggleStarred="onToggleStarred"
+                @closeSidebar="$emit('toggleSidebarVisibility')"
             />
         </li>
     </ul>

@@ -6,8 +6,7 @@
     const addNewTaskButtonLabel = ref('');
     const addNewTaskField = ref(false);
     const editColumnName = ref(false);
-    const newTaskDescription = ref('');
-    const newTaskName = ref('')
+   
     const showEditColumn = ref(false);
     const selectedTaskId = computed(() => boardStore.selectedTaskId);
 
@@ -25,6 +24,12 @@
             default:false
         }
     });
+
+    //State for new task form
+    const state = reactive({
+        newTaskDescription :'',
+        newTaskName :''
+    })
 
     const addTask = (columnIndex, name, description) => {
         const newId = uuidv4();
@@ -60,6 +65,7 @@
 
     const deactivateAddNewTaskField = () => {
         addNewTaskField.value = false;
+        addNewTaskButtonLabel.value = '';
     };
 
     const deactivateEditColumnName = () => {
@@ -155,6 +161,7 @@
                             toTaskIndex: taskIndex
                         })
                     "
+                    @hideNewTaskField="deactivateAddNewTaskField"
                 />
             </li>
         </ul>
@@ -170,7 +177,11 @@
             @mouseleave="()=>addNewTaskButtonLabel= ''"
             @click="addNewTaskField = !addNewTaskField"
         />
-        <UForm v-else @submit="addTask(columnIndex, newTaskName, newTaskDescription)">
+        <UForm 
+            v-else 
+            :state="state"
+            @submit="addTask(columnIndex, newTaskName, newTaskDescription)"
+        >
             <UFormGroup 
                 class="mb-2"
                 label="Task Name" 
@@ -178,7 +189,7 @@
                 :ui="{label:{base:'text-sky-100'}}"
             >
                 <UInput 
-                    v-model="newTaskName" 
+                    v-model="state.newTaskName" 
                     color="sky"
                     variant="outline" 
                     placeholder="Task Name" 
@@ -189,7 +200,7 @@
                 :ui="{label:{base:'text-sky-100'}}"
             >
                 <UTextarea 
-                    v-model="newTaskDescription"
+                    v-model="state.newTaskDescription"
                     color="sky"
                 />
             </UFormGroup>

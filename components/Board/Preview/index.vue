@@ -2,17 +2,6 @@
     const starredVisible = ref(false);
 
     const props = defineProps({
-        bgUrl:{
-            type: String,
-            
-        },
-        boardName:{
-            type:String,
-            required: true
-        },
-        boardId:{
-            type:String
-        },
         board:{
             type:Object,
             required:true
@@ -32,7 +21,10 @@
             'bg-center',
             'border-separate',
             'overflow-hidden',
-            'border-orange-500',
+            'border-orange-400',
+            {
+                'bg-slate-400':!board.url
+            }
             
         ]"
         :style="{backgroundImage: `url('${board.url}')`}"
@@ -49,7 +41,7 @@
                     'bg-slate-500/50':starredVisible
                 }
                 ]"
-            :to="`/${board.id}`"
+            :to="board.url?`/${board.id}`:''"
         >
             <div 
                 
@@ -69,7 +61,7 @@
                         'text-slate-50',
                         'pr-3',
                         {
-                            'invisible':!starredVisible
+                            'invisible':!starredVisible || !board.url
                         }
                         ]"
                     @click="$emit('toggleStarred')"

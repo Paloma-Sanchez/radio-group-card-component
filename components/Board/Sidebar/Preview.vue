@@ -30,6 +30,7 @@ const props = defineProps({
     <NuxtLink 
         class="c-prev-left flex w-full items-center" 
         :to="`/${board.id}`"
+        @click="$emit('closeSidebar')"
     >
       <div
         class="c-img-prev w-8 h-5 bg-cover bg-center mr-3"

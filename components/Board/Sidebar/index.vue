@@ -8,8 +8,7 @@ const onToggleSidebarVisibility = () => {
 <template>
     <div 
         :class="[
-            'pl-6', 
-            'pr-6 w-[260px]', 
+            'w-[260px]', 
             'h-full', 
             'relative',
             'bg-slate-500/95',
