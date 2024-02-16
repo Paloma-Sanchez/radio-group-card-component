@@ -7,7 +7,7 @@
       "starred": true,
       "columns": [
         {
-          "name": "todossss",
+          "name": "todoss",
           "tasks": [
             {
               "id": "80a7e736-e185-4246-a6ea-3c050a1085a6",
@@ -106,11 +106,18 @@
       ]
     },
     {
-      "id": "123",
-      "name": "weekly-board",
-      "url": "https://www.peruhop.com/wp-content/uploads/full-day-tour-main.jpg",
-      "starred": "false",
-      "columns": "[]"
+      "id": "c18ebb60-716c-4c96-8f1d-50b3840e1765",
+      "name": "millpu trip",
+      "url": "https://portal.andina.pe/EDPfotografia3/Thumbnail/2023/06/06/000964426W.jpg",
+      "starred": true,
+      "columns": []
+    },
+    {
+      "id": "29c4809a-3177-423d-b8e6-0cea7134cb51",
+      "name": "weekly report",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Rainbow_Mountain_Peru.jpg",
+      "starred": false,
+      "columns": []
     }
   ]
 }

@@ -11,17 +11,24 @@ const boardForCreatingNewBoard = {
 
 const props = defineProps({
     boards:{
-        type:Object,
+        type:[Object, null],
         required:true
     }
 });
+
+const handleNewBoardCreation = (boardName, url) => {
+    //console.log('creating board', boardName, url);
+    boardStore.createNewBoard(boardName, url);
+    createNewBoardActive.value=false;
+}
 </script>
 <template>
     <div class="c-preview-list grid  gap-3 grid-cols-4 sm:grid-cols-2 w-11/12 border-solid border-slate-900">
         <BoardPreview v-for="board in boards" 
             :board="board"
             class="border-orange-500"
-            />
+            @toggleStarred="boardStore.toggleBoardStarred"
+        />
         <div
         >
             <BoardPreview
@@ -31,12 +38,14 @@ const props = defineProps({
             <NewBoardConfig
                 :class="[
                     'relative',
-                    '-top-[50%]',
-                    '-left-full',
+                    '-top-[60%]',
+                    '-left-[304px]',
+                    'w-[304px]',
                     {
                         'invisible': !createNewBoardActive
                     }
                     ]"
+                @createNewBoard="handleNewBoardCreation"
             />
         </div>
     </div>

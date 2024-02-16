@@ -60,11 +60,13 @@
                         'w-fit',
                         'text-slate-50',
                         'pr-3',
+                        'hover:scale-150',
+                        'cursor-pointer',
                         {
                             'invisible':!starredVisible || !board.url
                         }
                         ]"
-                    @click="$emit('toggleStarred')"
+                    @click="$emit('toggleStarred', board.id)"
                 >
                     <UIcon name="i-heroicons-star-solid" v-if="board.starred"/>
                     <UIcon name="i-heroicons-star" v-else/>
