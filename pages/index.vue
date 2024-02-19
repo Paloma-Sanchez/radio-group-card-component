@@ -1,19 +1,27 @@
 <script setup>
 import { useBoardStore } from '~/stores/boardStore';
 const boardStore = useBoardStore();
-const route = useRoute();
-let boards = {};
+const allBoards = computed(()=>boardStore.boards); 
+const highlightedBoards = computed(()=>boardStore.getStarredBoards); 
+const highlightActive = computed(()=>boardStore.highlightsActive);
+const boards = ref({});
 
-onMounted(() => {
-    boardStore.loadBoards();
+onMounted(async() => {
+    await boardStore.loadBoards();
+    boards.value = boardStore.boards;
 });
 
-if(1===1){
-    console.log('route', route);
-    boards=computed(() => boardStore.boards);
-}else{
-    boards= boardStore.getStarredBoards;
-};
+
+watch([highlightActive, allBoards],()=>{
+    console.log('highlight',highlightActive.value);
+    if(!highlightActive.value){
+        boards.value=allBoards.value;
+    }else{
+        boards.value=highlightedBoards.value;
+    };
+});
+
+
 
 definePageMeta({
     layout:"landing"

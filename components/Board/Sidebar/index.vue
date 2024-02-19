@@ -39,6 +39,9 @@ const onToggleSidebarVisibility = () => {
                 ]"
             @click="onToggleSidebarVisibility"
         >
+        <div
+            
+        >
             <UButton
                 icon="i-heroicons-chevron-right-16-solid"
                 size="sm"
@@ -55,6 +58,7 @@ const onToggleSidebarVisibility = () => {
                 variant="solid"
                 v-else
             />
+        </div>
         </div>
         <BoardSidebarList
             @toggleSidebarVisibility="onToggleSidebarVisibility"

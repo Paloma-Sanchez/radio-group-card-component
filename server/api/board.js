@@ -1,3 +1,5 @@
+import { defineEventHandler } from 'h3';
+
 export default defineEventHandler(async (event) => {
     const response = await $fetch('http://localhost:3000/boards');
     const finalResponse = [];
@@ -11,6 +13,6 @@ export default defineEventHandler(async (event) => {
             }
         );
     });
-
+    console.log(finalResponse);
     return finalResponse;
-})
+});

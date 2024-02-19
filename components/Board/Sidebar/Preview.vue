@@ -28,18 +28,23 @@ const props = defineProps({
     @mouseleave="hoveringOnBoard = false"
   >
     <NuxtLink 
-        class="c-prev-left flex w-full items-center" 
+        class="c-prev-left flex  items-center" 
         :to="`/${board.id}`"
-        @click="$emit('closeSidebar')"
     >
       <div
-        class="c-img-prev w-8 h-5 bg-cover bg-center mr-3"
-        :style="{ backgroundImage: `url('${board.url}')` }"
-      ></div>
-      <p>{{ board.name }}</p>
+        class="c-click flex items-center" 
+        @click.self="$emit('closeSidebar')"
+      >
+        <div
+          class="c-img-prev w-8 h-5 bg-cover bg-center mr-3"
+          :style="{ backgroundImage: `url('${board.url}')` }"
+        ></div>
+        <p>{{ board.name }}</p>
+      </div>
     </NuxtLink>
     <div
-        @click="$emit('toggleStarred')"
+      class="cursor-pointer hover:scale-125"
+      @click="$emit('toggleStarred', board.id)"
     >
         <UIcon name="i-heroicons-star-solid" v-if="board.starred"/>
         <UIcon name="i-heroicons-star" v-else/>

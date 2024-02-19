@@ -9,8 +9,8 @@
 
     const emit = defineEmits(['toggleSidebarVisibility'])
 
-    const onToggleStarred = () => {
-        boardStore.toggleStarred();
+    const onToggleStarred = (boardId) => {
+        boardStore.toggleBoardStarred(boardId);
         emit('toggleSidebarVisibility')
     }
 </script>

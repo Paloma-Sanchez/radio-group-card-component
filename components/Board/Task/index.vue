@@ -1,10 +1,12 @@
 <script setup>
-    import { useBoardStore } from '~/stores/boardStore';
+import { useBoardStore } from '~/stores/boardStore';
     const boardStore = useBoardStore();
     const router = useRouter();
     const toast = useToast();
+    const coverMenuActive=ref(false);
     const cursorOverTask = ref(false);
     const modifyTaskMenuOpen = ref(false);
+    const newCoverColor = ref('');
     const showModifyTaskButton = ref(false);
     const boardId = computed(() => boardStore.board.id);
     const maskIsVisible = computed(()=> boardStore.maskIsVisible);
@@ -20,6 +22,7 @@
             }else{
                 showModifyTaskButton.value = false;
             }
+            coverMenuActive.value=false;
         }else{
             if(taskFieldActive.value){
                 showModifyTaskButton.value = false;
@@ -29,10 +32,6 @@
             }
         }
     });
-
-    watch(showModifyTaskButton,()=>{
-        console.log('watcher', showModifyTaskButton.value)
-    }, {immediate:true});
 
     const emit = defineEmits(['hideNewTaskField'])
     
@@ -77,7 +76,24 @@
         emit('hideNewTaskField');
     };
 
+    const handleCloseCoverMenu = () => {
+        coverMenuActive.value=false;
+        boardStore.toggleMaskVisibility();
+    };
+
+    const handleCoverColorChange = async (newColor) => {
+        await boardStore.changeCoverColor(props.columnIndex, props.taskIndex, newColor);
+        boardStore.toggleMaskVisibility();
+    };
+
+    const handleTryingNewColor = (newColor) =>{
+        newCoverColor.value = newColor;
+    };
+
     const modifyTask = (taskIndex, columnIndex) => {
+        if(!state.newTaskName){
+            return;
+        }
         boardStore.modifyTask(taskIndex, columnIndex, state.newTaskName, state.newTaskDescription);
         boardStore.toggleMaskVisibility();
         boardStore.toggleTaskFieldVisibility();
@@ -114,13 +130,16 @@
         }, 
         {
             label: 'Change cover',
-            icon: 'i-heroicons-document-duplicate-20-solid',
+            icon: 'i-heroicons-swatch-20-solid',
             shortcuts: ['D'],
-            disabled: true
+            click: () => {
+                coverMenuActive.value = !coverMenuActive.value;
+            }
         }], 
         [{
             label: 'Move',
-            icon: 'i-heroicons-archive-box-20-solid'
+            icon: 'i-heroicons-arrow-right-20-solid'
+
         }, 
         {
             label: 'Delete',
@@ -134,7 +153,7 @@
 </script>
 
 <template>
-    
+<div>
     <UCard 
         :class="[
             'c-card',
@@ -148,21 +167,34 @@
                 'hover:ring-transparent':taskFieldActive
             } 
             ]" 
-        :ui="{ body: {padding: 'py-1 sm:p-1' }}"
+        :ui="{ body: {padding: 'py-0 px=0 sm:p-0' }}"
     >
         <div 
-            class="flex justify-between cursor-pointer"
+        v-if="task.cover || newCoverColor"
+            :class="[
+                'c-cover',
+                'h-9',
+                'w-full',
+                'px-0',
+                'py-0'
+                ]"
+        :style="{backgroundColor: `${!newCoverColor? task.cover:newCoverColor}`}"
+    >
+    </div>
+        <div 
+            class="flex justify-between p-3 cursor-pointer"
             @mouseenter="()=>taskFieldActive?'': cursorOverTask = true"
             @mouseleave="()=>taskFieldActive?'': cursorOverTask = false"
                
         >
+           
             <div 
                 class="c-task-content w-full"
                 
             >
                 <div 
                     v-if="!taskFieldActive || selectedTaskId !==task.id" 
-                    class="h-auto"
+                    class="h-auto min-h-9"
                     @click="goToTask(task.id)"   
                 >
                     <strong>{{ task.name }}</strong>
@@ -177,16 +209,24 @@
                         :state="state"
                         @submit="modifyTask(taskIndex, columnIndex)"
                     >
-                        <UFormGroup label="Task Name" required>
+                        <UFormGroup 
+                            class="mb-3"
+                            label="Task Name" 
+                            :error="!state.newTaskName && 'Task requires a name'"
+                            required
+                            :ui="{label:{base:'text-slate-200'}}"  
+                        >
                             <UInput 
                                 v-model="state.newTaskName"
                                 variant="outline" 
-                                placeholder="Task Name" 
+                                placeholder="Task Name"
+                                :trailing-icon="error ? 'i-heroicons-exclamation-triangle-20-solid' : undefined"
                             />
                         </UFormGroup>
                         <UFormGroup 
                             label="Task Description"
-                            class="mb-4"    
+                            class="mb-4"
+                            :ui="{label:{base:'text-slate-200'}}"  
                         >
                             <UTextarea 
                                 v-model="state.newTaskDescription"
@@ -195,7 +235,9 @@
                         <UButton 
                             type="submit"
                             color="sky"
-                            >
+                            block
+                            :disabled="!state.newTaskName?true:false"
+                        >
                             Save
                         </UButton>
                     </UForm>
@@ -224,5 +266,13 @@
             </div>
             </div>  
     </UCard>
+    <BoardTaskCoverMenu 
+        v-if="(coverMenuActive && selectedTaskId === task.id && maskIsVisible)"
+        :taskCover="task.cover"
+        @changeCoverColor="handleCoverColorChange"
+        @closeCoverMenu="handleCloseCoverMenu"
+        @tryNewColor="handleTryingNewColor"
+    />
+</div>
 </template>
 

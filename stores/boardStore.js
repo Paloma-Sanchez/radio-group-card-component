@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { defineStore } from "pinia";
-import UUID from "vue-uuid";
 import { v4 as uuidv4 } from 'uuid';
 
 export const useBoardStore = defineStore('boardStore', () => {
@@ -41,13 +40,21 @@ export const useBoardStore = defineStore('boardStore', () => {
         };
         const newColumnArray = [...board.value.columns, newColumn];
         await modifyColumnElementInBoard(newColumnArray);
-        
     };
     
     const addTask = async (columnIndex, task) => {
         const newTaskArray = [...board.value.columns[columnIndex].tasks, task]
         await modifyTaskElementInBoard(columnIndex, newTaskArray);
-        
+    };
+
+    const changeCoverColor = async (columnIndex, taskIndex, newColor) => {
+        const taskToChange = board.value.columns[columnIndex].tasks[taskIndex];
+        const modifiedTaskArray = [...board.value.columns[columnIndex].tasks];
+        modifiedTaskArray[taskIndex] = {
+            ...taskToChange, 
+            cover:newColor 
+        };
+        await modifyTaskElementInBoard(columnIndex, modifiedTaskArray);  
     };
 
     const createNewBoard = async (boardName, url) => {
@@ -65,14 +72,12 @@ export const useBoardStore = defineStore('boardStore', () => {
     const deleteColumn = async (columnName) => {
         const newColumnArray = board.value.columns.filter((column) => column["name"] !== columnName);
         await modifyColumnElementInBoard(newColumnArray);
-        
     };
 
     const deleteTask = async(taskIndex, columnIndex) => {
         const newTaskArrays = [...board.value.columns[columnIndex].tasks];
         newTaskArrays.splice(taskIndex, 1);
         await modifyTaskElementInBoard(columnIndex, newTaskArrays);
-        
     };
 
     const getSelectedTaskAndIndexes = (taskId) => {
@@ -100,7 +105,6 @@ export const useBoardStore = defineStore('boardStore', () => {
             name:newColumnName
         };
         await modifyColumnElementInBoard(modifiedColumnArray);
-        
     };
 
     const modifyColumnElementInBoard = async (newColumnArray) => {
@@ -118,7 +122,6 @@ export const useBoardStore = defineStore('boardStore', () => {
         modifiedTaskArray[taskIndex] = {
             ...taskToChange, 
             name:newName, 
-            description: newDescription
         };
         await modifyTaskElementInBoard(columnIndex, modifiedTaskArray);  
     };
@@ -138,14 +141,27 @@ export const useBoardStore = defineStore('boardStore', () => {
         await loadSelectedBoard(board.value.id);
     };
 
-    const moveColumn = (initialColumnIndex, toColumnIndex) => {
-        const column = board.value.columns.splice(initialColumnIndex, 1)[0];
-        board.value.columns.splice(toColumnIndex, 0, column);
+    const moveColumn = async (initialColumnIndex, toColumnIndex) => {
+        const modifiedColumnArray = board.value.columns;
+        const column = modifiedColumnArray.splice(initialColumnIndex, 1)[0];
+        modifiedColumnArray.splice(toColumnIndex, 0, column);
+        const newBoard = {
+            ...board.value,
+            columns:modifiedColumnArray
+        }
+        await axios.put(`http://localhost:3000/boards/${board.value.id}`, newBoard)
+        await loadSelectedBoard(board.value.id);
     };
 
-    const moveTask = ({fromTaskIndex, toTaskIndex, fromColumnIndex, toColumnIndex}) => {
-        const task = board.value.columns[fromColumnIndex].tasks.splice(fromTaskIndex, 1)[0];
-        board.value.columns[toColumnIndex].tasks.splice(toTaskIndex, 0, task);
+    const moveTask = async({fromTaskIndex, toTaskIndex, fromColumnIndex, toColumnIndex}) => {
+        const newFromColumn = board.value.columns[fromColumnIndex]
+        const task = newFromColumn.tasks.splice(fromTaskIndex, 1)[0];
+        const newToColumn=board.value.columns[toColumnIndex]
+        newToColumn.tasks.splice(toTaskIndex, 0, task);
+        const modifiedColumnArray = [...board.value.columns];
+        modifiedColumnArray[fromColumnIndex]=newFromColumn;
+        modifiedColumnArray[toColumnIndex]=newToColumn;
+        await modifyColumnElementInBoard(modifiedColumnArray);
     };
         
     const setSelectedTaskId = (taskId) => {
@@ -163,8 +179,8 @@ export const useBoardStore = defineStore('boardStore', () => {
         await loadBoards();
     };
 
-    const toggleHighlightsActive = () => {
-        highlightsActive.value = !highlightsActive.value;
+    const toggleHighlightsActive = (bool) => {
+        highlightsActive.value = bool;
     };
 
     const toggleMaskVisibility = () => {
@@ -190,6 +206,7 @@ export const useBoardStore = defineStore('boardStore', () => {
         loadSelectedBoard,
         addColumn,
         addTask,
+        changeCoverColor,
         createNewBoard,
         deleteColumn,
         deleteTask,

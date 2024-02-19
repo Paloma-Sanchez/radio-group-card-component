@@ -13,6 +13,9 @@
     });
 
     const addColumn = () => {
+        if(!newColumnName.value){
+            return;
+        };
         boardStore.addColumn(newColumnName.value);
         newColumnName.value = '';
     };
@@ -90,11 +93,13 @@
             />
             <UContainer class="column mx- min-w-[256px] max-w-[256px]" >
                     <UInput 
-                        type="text"
+                        v-model="newColumnName"
+                        color="sky"
                         placeholder=" Create new column" 
                         icon="i-heroicons-plus-circle-solid"
-                        v-model="newColumnName"
-                        @keyup.enter="addColumn"/>
+                        @keyup.enter="addColumn"
+                        :ui="{variant:{outline:'bg-slate-50'}}"
+                    />
             </UContainer>
         </main>
     </div>

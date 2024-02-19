@@ -4,16 +4,46 @@
       "name": "task-board",
       "id": "e1fc641b-0e18-4256-bed7-d7cd91d4c1ac",
       "url": "https://www.peruhop.com/wp-content/uploads/full-day-tour-main.jpg",
-      "starred": true,
+      "starred": false,
       "columns": [
+        {
+          "name": "in progress",
+          "tasks": [
+            {
+              "id": "9f10b710-b8b7-4891-b3f2-ddb3f66c14a7",
+              "name": "task #79",
+              "description": "blabla",
+              "cover": ""
+            },
+            {
+              "id": "22cf5a3d-0172-43dd-92b0-31048477954f",
+              "name": "task#45",
+              "description": ""
+            },
+            {
+              "id": "02006548-38ce-4ddf-9d97-055a447d2184",
+              "name": "task#30",
+              "description": ""
+            },
+            {
+              "id": "44ecfbd4-3f4a-42e2-bc30-e398109f8d74",
+              "name": "thrh",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "completed",
+          "tasks": []
+        },
         {
           "name": "todoss",
           "tasks": [
             {
-              "id": "80a7e736-e185-4246-a6ea-3c050a1085a6",
-              "name": "task #1",
-              "description": "",
-              "cover": ""
+              "id": "157c993f-8f00-4875-b1d9-7a0d9d562bb4",
+              "name": "task #10",
+              "description": "blooper\n",
+              "cover": "#fb923c"
             },
             {
               "id": "f76ea49b-ac92-41be-8477-90657d501be0",
@@ -22,30 +52,6 @@
               "cover": ""
             }
           ]
-        },
-        {
-          "name": "in progress",
-          "tasks": [
-            {
-              "id": "157c993f-8f00-4875-b1d9-7a0d9d562bb4",
-              "name": "task #10",
-              "description": ""
-            },
-            {
-              "id": "5c80883a-2ee0-4b6d-9ae5-76cb937213e0",
-              "name": "task #12",
-              "description": ""
-            },
-            {
-              "id": "9f10b710-b8b7-4891-b3f2-ddb3f66c14a7",
-              "name": "task #79",
-              "description": "blabla"
-            }
-          ]
-        },
-        {
-          "name": "completed",
-          "tasks": []
         }
       ]
     },
@@ -53,7 +59,7 @@
       "name": "task-board2",
       "id": "5edd3944-4baf-44d2-a855-5031ddb4d3c5",
       "url": "https://humanidades.com/wp-content/uploads/2018/09/Per%C3%BA-5-e1578616930994-800x416.jpg",
-      "starred": false,
+      "starred": true,
       "columns": [
         {
           "name": "todo",
@@ -61,7 +67,7 @@
             {
               "id": "80a7e736-e185-4246-a6ea-3c050a1085a6",
               "name": "task #1",
-              "description": "",
+              "description": "bleblo\noisodfi\n\ndsfdfgsfg\nsdgfsfgsfg\ndsgf",
               "cover": ""
             },
             {
@@ -84,7 +90,8 @@
             {
               "id": "e41c8873-f1b2-48f8-a91b-57ff36760930",
               "name": "task #50",
-              "description": ""
+              "description": "",
+              "cover": ""
             }
           ]
         },
@@ -116,6 +123,20 @@
       "id": "29c4809a-3177-423d-b8e6-0cea7134cb51",
       "name": "weekly report",
       "url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Rainbow_Mountain_Peru.jpg",
+      "starred": true,
+      "columns": []
+    },
+    {
+      "id": "6029d225-c2a7-410e-af6d-44262bb2e385",
+      "name": "valerian\\",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Rainbow_Mountain_Peru.jpg",
+      "starred": false,
+      "columns": []
+    },
+    {
+      "id": "391743ba-5507-4fd2-a7be-9db27c229ec5",
+      "name": "bke",
+      "url": "https://humanidades.com/wp-content/uploads/2018/09/Per%C3%BA-5-e1578616930994-800x416.jpg",
       "starred": false,
       "columns": []
     }

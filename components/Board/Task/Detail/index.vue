@@ -4,7 +4,9 @@ const route = useRoute();
 const boardStore = useBoardStore();
 const board = boardStore.board;
 const nameFieldActive =ref(false);
+const newCoverColor = ref('');
 const descriptionFieldActive = ref(false);
+const coverMenuActive=ref(false);
 
 const props = defineProps({
     task:{
@@ -24,31 +26,85 @@ const state = reactive({
     newTaskDescription : props.task.description 
 });
 
-const onSubmit = () => {
-    console.log('submitting',state.newTaskName);
-    boardStore.modifyTask(props.taskIndex, props.columnIndex, state.newTaskName, state.newTaskDescription);
-    console.log(props.task);
-    boardStore.getSelectedTaskAndIndexes(route.params.taskId);
-    nameFieldActive.value=false;
-    descriptionFieldActive.value=false;
-};
-
 const propTask = computed(() => props.task);
 
 watch(propTask, ()=>{
     console.log('task watcher',propTask.value);
     console.log(props.taskIndex);
     
-}, {immediate:true})
+}, {immediate:true});
+
+const handleCoverColorChange = async (newColor) => {
+        await boardStore.changeCoverColor(props.columnIndex, props.taskIndex, newColor);
+        boardStore.getSelectedTaskAndIndexes(route.params.taskId);
+        if(!newColor){
+            newCoverColor.value="";
+        };
+        coverMenuActive.value=false;
+    };
+
+const handleTryingNewColor = (newColor) =>{
+        newCoverColor.value = newColor;
+    };
+
+const onSubmit = () => {
+    //console.log('submitting',state.newTaskName);
+    boardStore.modifyTask(props.taskIndex, props.columnIndex, state.newTaskName, state.newTaskDescription);
+    //console.log(props.task);
+    boardStore.getSelectedTaskAndIndexes(route.params.taskId);
+    nameFieldActive.value=false;
+    descriptionFieldActive.value=false;
+};
+
 </script>
 
 <template>
     <div 
-        class="h-full w-11/12 mx-auto bg-slate-800 rounded p-6 text-sky-100 "
+        class="h-full w-11/12 mx-auto bg-slate-800 rounded-xl  text-sky-100 "
         @click.self="nameFieldActive=false"
     >
+        <div 
+            v-if="task.cover || newCoverColor"
+                :class="[
+                    'c-cover',
+                    'h-28',
+                    'w-full',
+                    'px-0',
+                    'py-0',
+                    'rounded-t-lg',
+                    ]"
+            :style="{backgroundColor: `${!newCoverColor? task.cover:newCoverColor}`}"
+        >
+        </div>
+        <UButton
+            :class="[
+                'relative', 
+                'left-[92%]',
+                {
+                    '-top-10':task.cover,
+                    'top-4':!task.cover
+                }
+                ]"
+            icon="i-heroicons-swatch-20-solid"
+            size="sm"
+            :color="task.cover?'black':'white'"
+            square
+            variant="link"
+            @click="coverMenuActive=!coverMenuActive"
+        />
+        <BoardTaskCoverMenu
+            v-if="coverMenuActive"
+            class="left-[50%]"
+            :taskCover="task.cover"
+            @changeCoverColor="handleCoverColorChange"
+            @closeCoverMenu="coverMenuActive=false"
+            @tryNewColor="handleTryingNewColor"
+        />
+        <div
+            class="p-6 pt-4"
+        >
         <h3 
-            class="font-semibold "
+            class="font-semibold mb-2"
             v-if="!nameFieldActive"
             @click="()=> nameFieldActive=true"
         >
@@ -102,5 +158,6 @@ watch(propTask, ()=>{
                 Save
             </UButton>
         </UForm>
+    </div>
     </div>
 </template>

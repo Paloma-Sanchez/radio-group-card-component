@@ -34,6 +34,9 @@
     })
 
     const addTask = async (columnIndex) => {
+        if(!state.newTaskName){
+            return;
+        };
         const newId = uuidv4();
         const newTask = {
                             id: newId,
@@ -66,11 +69,13 @@
     };
 
     const onChangedColumnName = () => {
-        if(props.column.name !== state.newColumnName){
+        if(!state.newColumnName){
+            return;
+        }else if(props.column.name !== state.newColumnName){
             boardStore.modifyColumn(props.columnIndex, state.newColumnName);
-        }
+        };
         editColumnName.value = false;
-    }
+    };
    
     const pickupTask = (event, {fromColumnIndex, fromTaskIndex}) => {
         event.dataTransfer.effectAllowed = 'move';
@@ -110,8 +115,9 @@
                     @keydown.enter.exact="onChangedColumnName"
                 >
                     <UInput 
-                        type="text" 
                         v-model="state.newColumnName" 
+                        color="sky"
+                        :ui="{variant:{outline:'bg-slate-50'}}"
                     />
                 </UForm>
             </div>
@@ -197,7 +203,8 @@
         >
             <UFormGroup 
                 class="mb-2"
-                label="Task Name" 
+                label="Task Name"
+                :error="!state.newTaskName && 'Task requires a name'"
                 required
                 :ui="{label:{base:'text-sky-100'}}"
             >
@@ -206,6 +213,8 @@
                     color="sky"
                     variant="outline" 
                     placeholder="Task Name" 
+                    :trailing-icon="error ? 'i-heroicons-exclamation-triangle-20-solid' : undefined"
+                    :ui="{variant:{outline:'bg-slate-50'}}"
                 />
             </UFormGroup>
             <UFormGroup 
@@ -215,12 +224,14 @@
                 <UTextarea 
                     v-model="state.newTaskDescription"
                     color="sky"
+                    :ui="{variant:{outline:'bg-slate-50'}}"
                 />
             </UFormGroup>
             <div class="flex items-center mt-4">
                 <UButton 
                 type="submit"
                 color="blue"
+                :disabled="!state.newTaskName?true:false"
                 >
                 Add
                 </UButton>
