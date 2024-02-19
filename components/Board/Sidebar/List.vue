@@ -15,7 +15,8 @@
     }
 </script>
 <template>
-    <ul>
+    <ul
+    >
         <li 
             v-for="boardPreview in boards"
         >

@@ -18,7 +18,8 @@ const props = defineProps({
         'items-center',
         'justify-between',
         'w-full',
-        'p-3',
+        'p-4',
+        'pr-5',
         'text-slate-50',
         {
             'bg-slate-300/50': hoveringOnBoard,

@@ -207,7 +207,7 @@ import { useBoardStore } from '~/stores/boardStore';
                     <UForm  
                         class="u-form"
                         :state="state"
-                        @submit="modifyTask(taskIndex, columnIndex)"
+                        @submit.prevent="modifyTask(taskIndex, columnIndex)"
                     >
                         <UFormGroup 
                             class="mb-3"

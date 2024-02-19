@@ -110,7 +110,11 @@ const onSubmit = () => {
         >
             {{props.task.name}}
         </h3>
-        <UForm :state="state" v-else @submit="onSubmit">
+        <UForm 
+            v-else 
+            :state="state" 
+            @submit="onSubmit"
+        >
             <UFormGroup>
                 <UInput 
                     v-model="state.newTaskName"
@@ -137,7 +141,11 @@ const onSubmit = () => {
         <p v-if="task.description && !descriptionFieldActive">
             {{ props.task.description }}
         </p>
-        <UForm :state="state" v-else @submit="onSubmit">
+        <UForm 
+            v-else 
+            :state="state" 
+            @submit.prevent="onSubmit"
+        >
             <UFormGroup>
                 <UTextarea 
                     v-model="state.newTaskDescription"

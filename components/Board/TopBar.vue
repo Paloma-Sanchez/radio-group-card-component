@@ -7,6 +7,10 @@ const boarStore = useBoardStore();
         }
     });
 
+const handleDeleteBoard = () => {
+
+};
+
 const onStarredClick = () => {
     boarStore.toggleBoardStarred();
 };
@@ -32,14 +36,21 @@ const onStarredClick = () => {
             </div>
         </div>
         <div
-            class="c-boar-top-bar-right pr-4"
+            class="c-boar-top-bar-right flex pr-4"
         >
             <UButton
-                size="2xs"
+                class="mr-2"
                 color="sky"
+                size="2xs"
             >
                 Change background
             </UButton>
+            <UButton
+                color="sky"
+                size="2xs"
+                icon="i-heroicons-trash"
+                @click="handleDeleteBoard"
+            />
         </div>
     </section>
 </template>

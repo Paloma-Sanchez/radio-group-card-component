@@ -11,7 +11,8 @@ const onToggleSidebarVisibility = () => {
             'w-[260px]', 
             'h-full', 
             'relative',
-            'bg-slate-500/95',
+            'bg-slate-600/90',
+            'backdrop-blur-sm',
             'z-10', 
             'rounded-r-lg',
             '-left-60',
@@ -45,7 +46,7 @@ const onToggleSidebarVisibility = () => {
             <UButton
                 icon="i-heroicons-chevron-right-16-solid"
                 size="sm"
-                color="primary"
+                color="black"
                 square
                 variant="solid"
                 v-if="!sideBarShowing"
@@ -53,7 +54,7 @@ const onToggleSidebarVisibility = () => {
             <UButton
                 icon="i-heroicons-chevron-left-16-solid"
                 size="sm"
-                color="primary"
+                color="black"
                 square
                 variant="solid"
                 v-else

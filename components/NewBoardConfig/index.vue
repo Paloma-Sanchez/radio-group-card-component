@@ -20,7 +20,7 @@ const state = reactive({
         </p>
         <UForm
             :state="state"
-            @submit="$emit('createNewBoard', state.newBoardTitle, state.selectedBackground)"
+            @submit.prevent="$emit('createNewBoard', state.newBoardTitle, state.selectedBackground)"
         >
             <UFormGroup 
                 name="background" 
