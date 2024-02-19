@@ -6,6 +6,7 @@ import { useBoardStore } from '~/stores/boardStore';
     const coverMenuActive=ref(false);
     const cursorOverTask = ref(false);
     const modifyTaskMenuOpen = ref(false);
+    const moveTaskMenuOpen = ref(false);
     const newCoverColor = ref('');
     const showModifyTaskButton = ref(false);
     const boardId = computed(() => boardStore.board.id);
@@ -138,8 +139,10 @@ import { useBoardStore } from '~/stores/boardStore';
         }], 
         [{
             label: 'Move',
-            icon: 'i-heroicons-arrow-right-20-solid'
-
+            icon: 'i-heroicons-arrow-right-20-solid',
+            click: () => {
+                moveTaskMenuOpen.value = !moveTaskMenuOpen.value;
+            }
         }, 
         {
             label: 'Delete',
@@ -207,7 +210,7 @@ import { useBoardStore } from '~/stores/boardStore';
                     <UForm  
                         class="u-form"
                         :state="state"
-                        @submit.prevent="modifyTask(taskIndex, columnIndex)"
+                        @submit="modifyTask(taskIndex, columnIndex)"
                     >
                         <UFormGroup 
                             class="mb-3"
@@ -272,6 +275,11 @@ import { useBoardStore } from '~/stores/boardStore';
         @changeCoverColor="handleCoverColorChange"
         @closeCoverMenu="handleCloseCoverMenu"
         @tryNewColor="handleTryingNewColor"
+    />
+    <BoardTaskMoveMenu
+        v-if="moveTaskMenuOpen && selectedTaskId === task.id && maskIsVisible"
+        :columnIndex="columnIndex"
+        :taskIndex="taskIndex"
     />
 </div>
 </template>

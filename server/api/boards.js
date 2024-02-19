@@ -13,6 +13,6 @@ export default defineEventHandler(async (event) => {
             }
         );
     });
-    console.log(finalResponse);
+    //console.log(finalResponse);
     return finalResponse;
 });

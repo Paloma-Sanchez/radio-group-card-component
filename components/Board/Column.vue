@@ -199,7 +199,7 @@
         <UForm 
             v-else 
             :state="state"
-            @submit.prevent="addTask(columnIndex, newTaskName, newTaskDescription)"
+            @submit="addTask(columnIndex, newTaskName, newTaskDescription)"
         >
             <UFormGroup 
                 class="mb-2"

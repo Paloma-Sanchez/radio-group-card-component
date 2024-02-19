@@ -4,30 +4,25 @@
       "name": "task-board",
       "id": "e1fc641b-0e18-4256-bed7-d7cd91d4c1ac",
       "url": "https://www.peruhop.com/wp-content/uploads/full-day-tour-main.jpg",
-      "starred": false,
+      "starred": true,
       "columns": [
         {
-          "name": "in progress",
+          "name": "todo",
           "tasks": [
             {
-              "id": "9f10b710-b8b7-4891-b3f2-ddb3f66c14a7",
-              "name": "task #79",
-              "description": "blabla",
+              "id": "80a7e736-e185-4246-a6ea-3c050a1085a6",
+              "name": "task #1",
+              "description": "bleblo\noisodfi\n\ndsfdfgsfg\nsdgfsfgsfg\ndsgf",
               "cover": ""
             },
             {
-              "id": "22cf5a3d-0172-43dd-92b0-31048477954f",
-              "name": "task#45",
-              "description": ""
+              "id": "55deb68e-0d85-4793-835d-497f045c569a",
+              "name": "task#50",
+              "description": "blable\n"
             },
             {
-              "id": "02006548-38ce-4ddf-9d97-055a447d2184",
-              "name": "task#30",
-              "description": ""
-            },
-            {
-              "id": "44ecfbd4-3f4a-42e2-bc30-e398109f8d74",
-              "name": "thrh",
+              "id": "497d51dd-2a0c-484c-b562-4b003fc582ad",
+              "name": "Task #79",
               "description": ""
             }
           ]
@@ -71,53 +66,89 @@
               "cover": ""
             },
             {
+              "id": "55deb68e-0d85-4793-835d-497f045c569a",
+              "name": "task#50",
+              "description": "blable\n"
+            },
+            {
+              "id": "497d51dd-2a0c-484c-b562-4b003fc582ad",
+              "name": "Task #79",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "completed",
+          "tasks": [
+            {
+              "id": "5d6caada-29bc-46d2-8e50-61b5442812dd",
+              "name": "tashki#59",
+              "description": ""
+            },
+            {
+              "id": "88aa77fb-17db-4295-b41c-246266caedee",
+              "name": "task #50",
+              "description": "loulou"
+            }
+          ]
+        },
+        {
+          "name": "todoss",
+          "tasks": [
+            {
+              "id": "157c993f-8f00-4875-b1d9-7a0d9d562bb4",
+              "name": "task #10",
+              "description": "blooper\n",
+              "cover": "#fb923c"
+            },
+            {
               "id": "f76ea49b-ac92-41be-8477-90657d501be0",
               "name": "task #4",
               "description": "",
               "cover": ""
             }
           ]
-        },
-        {
-          "name": "in progress",
-          "tasks": [
-            {
-              "id": "876bd2ac-4f84-4a90-8f28-82f0da43ac23",
-              "name": "task #2",
-              "description": "",
-              "cover": ""
-            },
-            {
-              "id": "e41c8873-f1b2-48f8-a91b-57ff36760930",
-              "name": "task #50",
-              "description": "",
-              "cover": ""
-            }
-          ]
-        },
-        {
-          "name": "complete",
-          "tasks": [
-            {
-              "id": "0fa5e635-4364-4df4-b4a1-edc7f0dc821f",
-              "name": "task #3",
-              "description": "",
-              "cover": ""
-            }
-          ]
-        },
-        {
-          "name": "omg",
-          "tasks": []
         }
       ]
     },
     {
+      "name": "trip to millpu",
       "id": "c18ebb60-716c-4c96-8f1d-50b3840e1765",
-      "name": "millpu trip",
       "url": "https://portal.andina.pe/EDPfotografia3/Thumbnail/2023/06/06/000964426W.jpg",
-      "starred": true,
-      "columns": []
+      "starred": false,
+      "columns": [
+        {
+          "name": "test",
+          "tasks": [
+            {
+              "id": "93e6a764-41ae-411b-af42-ff8023e01460",
+              "name": "task #10",
+              "description": "blule]\n"
+            }
+          ]
+        },
+        {
+          "name": "completed",
+          "tasks": []
+        },
+        {
+          "name": "todoss",
+          "tasks": [
+            {
+              "id": "157c993f-8f00-4875-b1d9-7a0d9d562bb4",
+              "name": "task #10",
+              "description": "blooper\n",
+              "cover": "#fb923c"
+            },
+            {
+              "id": "f76ea49b-ac92-41be-8477-90657d501be0",
+              "name": "task #4",
+              "description": "",
+              "cover": ""
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "29c4809a-3177-423d-b8e6-0cea7134cb51",

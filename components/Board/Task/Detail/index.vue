@@ -48,9 +48,8 @@ const handleTryingNewColor = (newColor) =>{
     };
 
 const onSubmit = () => {
-    //console.log('submitting',state.newTaskName);
+    console.log('submitting',state.newTaskName);
     boardStore.modifyTask(props.taskIndex, props.columnIndex, state.newTaskName, state.newTaskDescription);
-    //console.log(props.task);
     boardStore.getSelectedTaskAndIndexes(route.params.taskId);
     nameFieldActive.value=false;
     descriptionFieldActive.value=false;
@@ -144,7 +143,7 @@ const onSubmit = () => {
         <UForm 
             v-else 
             :state="state" 
-            @submit.prevent="onSubmit"
+            @submit="onSubmit"
         >
             <UFormGroup>
                 <UTextarea 

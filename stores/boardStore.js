@@ -7,6 +7,7 @@ export const useBoardStore = defineStore('boardStore', () => {
     const boards =  ref(null);
     const board = ref(null);
     const boardLoading = ref(false);
+    const boardShell = ref(null);
     const highlightsActive = ref(false);
     const maskIsVisible = ref(false);
     const taskFieldActive = ref(false);
@@ -22,8 +23,13 @@ export const useBoardStore = defineStore('boardStore', () => {
   
     //Actions
     const loadBoards = async() => {
-        const {data} = await useFetch('/api/board');
+        const {data} = await useFetch('/api/boards');
         return boards.value = data.value; 
+    };
+
+    const loadBoardShell = async(id) => {
+        const {data}= await useFetch(`/api/${id}`);
+        return boardShell.value = data.value;
     };
 
     const loadSelectedBoard = async (boardId) => {
@@ -100,6 +106,36 @@ export const useBoardStore = defineStore('boardStore', () => {
         };
     };
 
+    const moveTaskToNewBoard = async({fromTaskIndex, toTaskIndex, fromColumnIndex, toColumnIndex, boardId}) => {
+        console.log('recieved fom be')
+        const newFromColumn = board.value.columns[fromColumnIndex]
+        const task = newFromColumn.tasks.splice(fromTaskIndex, 1)[0];
+        const modifiedFromColumnArray = [...board.value.columns];
+        modifiedFromColumnArray[fromColumnIndex]=newFromColumn;
+        console.log('hello2');
+        await modifyColumnElementInBoard(modifiedFromColumnArray);
+
+        const {data:toBoard} = await useFetch(`http://localhost:3000/boards/${boardId}`);
+        console.log('dta', toBoard.value)
+        const newToColumn=toBoard.value.columns[toColumnIndex]
+        newToColumn.tasks.splice(toTaskIndex, 0, task);
+        const modifiedToColumnArray = [...toBoard.value.columns];
+        modifiedToColumnArray[toColumnIndex]=newToColumn;
+        const newBoard = {
+            ...toBoard.value, 
+            columns:modifiedToColumnArray
+        };
+        console.log('newBoard',newBoard);
+        await axios.put(`http://localhost:3000/boards/${boardId}`, newBoard );
+    };
+
+    const modifyBoardName = async (newBoardName) => {
+        const newBoard = {
+            ...board.value,
+            name:newBoardName
+        };
+        await axios.put(`http://localhost:3000/boards/${board.value.id}`, newBoard );
+    };
 
     const modifyColumn = async (columnIndex, newColumnName) => {
         const columnToChange = board.value.columns[columnIndex];
@@ -126,6 +162,7 @@ export const useBoardStore = defineStore('boardStore', () => {
         modifiedTaskArray[taskIndex] = {
             ...taskToChange, 
             name:newName, 
+            description:newDescription
         };
         await modifyTaskElementInBoard(columnIndex, modifiedTaskArray);  
     };
@@ -158,6 +195,7 @@ export const useBoardStore = defineStore('boardStore', () => {
     };
 
     const moveTask = async({fromTaskIndex, toTaskIndex, fromColumnIndex, toColumnIndex}) => {
+        //console.log('received indexes',fromTaskIndex, toTaskIndex, fromColumnIndex, toColumnIndex)
         const newFromColumn = board.value.columns[fromColumnIndex]
         const task = newFromColumn.tasks.splice(fromTaskIndex, 1)[0];
         const newToColumn=board.value.columns[toColumnIndex]
@@ -198,6 +236,7 @@ export const useBoardStore = defineStore('boardStore', () => {
     return {
         boards,
         board,
+        boardShell,
         boardLoading,
         highlightsActive,
         maskIsVisible,
@@ -207,6 +246,7 @@ export const useBoardStore = defineStore('boardStore', () => {
         taskPencilButtonVisible,
         getStarredBoards,
         loadBoards,
+        loadBoardShell,
         loadSelectedBoard,
         addColumn,
         addTask,
@@ -216,10 +256,12 @@ export const useBoardStore = defineStore('boardStore', () => {
         deleteColumn,
         deleteTask,
         getSelectedTaskAndIndexes,
+        modifyBoardName,
         modifyColumn,
         modifyTask,
         moveColumn,
         moveTask,
+        moveTaskToNewBoard,
         toggleBoardStarred,
         toggleHighlightsActive,
         toggleMaskVisibility,

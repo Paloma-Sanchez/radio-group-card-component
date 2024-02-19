@@ -1,7 +1,8 @@
 <script setup>
-const boarStore = useBoardStore();
+const boardStore = useBoardStore();
 const router = useRouter();
 const toast = useToast();
+const modifyBoardNameActive = ref(false);
 
 //actions for toast buttons
 const actions = ref([
@@ -26,10 +27,18 @@ const props = defineProps({
         }
 });
 
+const newBoardName = ref(props.board.name);
+
 const handleDeleteBoardConfirmed = async () => {
     console.log('deleting');
-    await boarStore.deleteBoard(props.board.id);
+    await boardStore.deleteBoard(props.board.id);
     router.replace('/');
+};
+
+const onChangeBoardName = async() => {
+    await boardStore.modifyBoardName(newBoardName.value);
+    await boardStore.loadSelectedBoard(props.board.id);
+    modifyBoardNameActive.value=false;
 };
 
 const onDeleteBoardClick = () => {
@@ -42,8 +51,9 @@ const onDeleteBoardClick = () => {
     })
 };
 
-const onStarredClick = () => {
-    boarStore.toggleBoardStarred();
+const onStarredClick = async () => {
+   await boardStore.toggleBoardStarred(props.board.id);
+   await boardStore.loadSelectedBoard(props.board.id);
 };
 </script>
 <template>
@@ -51,13 +61,23 @@ const onStarredClick = () => {
         class=" c-board-top-bar flex items-center justify-between pl-6 pt-4 pb-4 text-xl bg-sky-700/50 rounded-t-lg text-sky-100 relative z-0 "
     >
         <div
-            class="c-boar-top-bar-left flex"
+            class="c-board-top-bar-left flex"
         >
-            <h3
-                class="font-semibold pr-5"
-            >
-                {{ board.name }}
-            </h3>
+            <div>
+                <h3
+                    v-if="!modifyBoardNameActive"
+                    class="font-semibold pr-5"
+                    @click="modifyBoardNameActive=!modifyBoardNameActive"
+                >
+                    {{ board.name }}
+                </h3>
+                <UInput
+                    v-else
+                    v-model="newBoardName"
+                    @keydown.enter.exact="onChangeBoardName"
+
+                />
+            </div>
             <div
                 class="pt-1 cursor-pointer"
                 @click="onStarredClick"
