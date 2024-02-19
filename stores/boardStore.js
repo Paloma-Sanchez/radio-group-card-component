@@ -69,6 +69,10 @@ export const useBoardStore = defineStore('boardStore', () => {
         await loadBoards();
     };
 
+    const deleteBoard = async (boardId) => {
+        await axios.delete(`http://localhost:3000/boards/${boardId}`);
+    };
+
     const deleteColumn = async (columnName) => {
         const newColumnArray = board.value.columns.filter((column) => column["name"] !== columnName);
         await modifyColumnElementInBoard(newColumnArray);
@@ -208,6 +212,7 @@ export const useBoardStore = defineStore('boardStore', () => {
         addTask,
         changeCoverColor,
         createNewBoard,
+        deleteBoard,
         deleteColumn,
         deleteTask,
         getSelectedTaskAndIndexes,

@@ -1,14 +1,45 @@
 <script setup>
 const boarStore = useBoardStore();
- const props = defineProps({
+const router = useRouter();
+const toast = useToast();
+
+//actions for toast buttons
+const actions = ref([
+    {
+        variant: 'solid', 
+        color: 'black',
+        label: 'Delete',
+        click: () => handleDeleteBoardConfirmed()
+    }, 
+    {
+        variant: 'solid', 
+        color: 'gray',
+        label: 'Go back',
+        click: () =>  {return}
+    }
+]);
+
+const props = defineProps({
         board:{
             type:Object,
             required:true
         }
-    });
+});
 
-const handleDeleteBoard = () => {
+const handleDeleteBoardConfirmed = async () => {
+    console.log('deleting');
+    await boarStore.deleteBoard(props.board.id);
+    router.replace('/');
+};
 
+const onDeleteBoardClick = () => {
+    toast.add({
+        title:'Are you sure to delete this board?', 
+        description:'All data will be lost', 
+        icon: 'i-heroicons-x-circle',
+        color:'red',
+        actions
+    })
 };
 
 const onStarredClick = () => {
@@ -49,7 +80,7 @@ const onStarredClick = () => {
                 color="sky"
                 size="2xs"
                 icon="i-heroicons-trash"
-                @click="handleDeleteBoard"
+                @click="onDeleteBoardClick"
             />
         </div>
     </section>
