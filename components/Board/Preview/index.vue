@@ -1,4 +1,5 @@
 <script setup>
+    const isLoading = ref(false);
     const starredVisible = ref(false);
 
     const props = defineProps({
@@ -8,10 +9,11 @@
         }
     });
 
-    //console.log('url', props.bgUrl);
 </script>
 <template>
+<div>
     <div 
+        v-if="isLoading || board.id === 0"
         :class="[
             'rounded',
             'c-board-prev',
@@ -31,6 +33,7 @@
         @mouseenter="starredVisible=true"
         @mouseleave="starredVisible=false"
     >
+        
         <NuxtLink 
             :class="[
                 'c-link-to-board-id',
@@ -51,6 +54,7 @@
                 </p>
             </div>     
         </NuxtLink>
+        
         <div
                     
                     :class="[
@@ -72,6 +76,18 @@
                     <UIcon name="i-heroicons-star" v-else/>
                 </div>
        
+    </div>
+    <div
+        v-else
+        class="w-full aspect-video rounded bg-gray-100 pt-4 pl-4"
+    >
+        <USkeleton
+            class="w-3/4 h-4 "
+            :ui="{background:'bg-gray-200'}"
+        />
+    </div>
+    <img class="w-8 h-4 hidden" :src="`${board.url}`"  @load="isLoading=true" />
+   
 </div>
 </template>
 

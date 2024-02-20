@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'logo': ['Righteous'],
+        'logo': ['Fredoka'],
       },
     },
   },

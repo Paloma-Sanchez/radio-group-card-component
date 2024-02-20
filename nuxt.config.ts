@@ -24,7 +24,7 @@ export default defineNuxtConfig({
       'Pacifico':true,
       'Abril Fatface ':true,
       'Orbitron':true,
-      'Righteous':true,
+      'Fredoka':true,
       'Montserrat Alternates': true,
       'Cinzel': true,
       'Courgette': true,
