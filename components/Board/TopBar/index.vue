@@ -2,6 +2,7 @@
 const boardStore = useBoardStore();
 const router = useRouter();
 const toast = useToast();
+const backgroundMenuActive=ref(false);
 const modifyBoardNameActive = ref(false);
 
 //actions for toast buttons
@@ -35,6 +36,11 @@ const handleDeleteBoardConfirmed = async () => {
     router.replace('/');
 };
 
+const onHandleClickOnTopBar = () => {
+    backgroundMenuActive.value=false;
+    modifyBoardNameActive.value=false;
+};
+
 const onChangeBoardName = async() => {
     await boardStore.modifyBoardName(newBoardName.value);
     await boardStore.loadSelectedBoard(props.board.id);
@@ -59,6 +65,7 @@ const onStarredClick = async () => {
 <template>
     <section
         class=" c-board-top-bar flex items-center justify-between pl-6 pt-4 pb-4 text-xl bg-sky-700/50 rounded-t-lg text-sky-100 relative z-0 "
+        @click.self="onHandleClickOnTopBar"
     >
         <div
             class="c-board-top-bar-left flex"
@@ -93,6 +100,7 @@ const onStarredClick = async () => {
                 class="mr-2"
                 color="sky"
                 size="2xs"
+                @click="backgroundMenuActive=!backgroundMenuActive"
             >
                 Change background
             </UButton>
@@ -103,5 +111,9 @@ const onStarredClick = async () => {
                 @click="onDeleteBoardClick"
             />
         </div>
+        <BoardTopBarChangeBgMenu
+            v-if="backgroundMenuActive"
+            @reload-board="boardStore.loadSelectedBoard(board.id)"
+        />
     </section>
 </template>

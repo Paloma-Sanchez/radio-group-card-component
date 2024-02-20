@@ -129,6 +129,14 @@ export const useBoardStore = defineStore('boardStore', () => {
         await axios.put(`http://localhost:3000/boards/${boardId}`, newBoard );
     };
 
+    const modifyBoardBackground = async (newUrl) => {
+        const newBoard = {
+            ...board.value,
+            url:newUrl
+        };
+        await axios.put(`http://localhost:3000/boards/${board.value.id}`, newBoard );
+    };
+
     const modifyBoardName = async (newBoardName) => {
         const newBoard = {
             ...board.value,
@@ -256,6 +264,7 @@ export const useBoardStore = defineStore('boardStore', () => {
         deleteColumn,
         deleteTask,
         getSelectedTaskAndIndexes,
+        modifyBoardBackground,
         modifyBoardName,
         modifyColumn,
         modifyTask,
