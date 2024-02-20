@@ -111,9 +111,12 @@ const onSubmit = async () => {
             <UFormGroup>
                 <UInput 
                     v-model="state.newTaskName"
+                    color="sky"
                     variant="outline" 
                     placeholder="Task Name"
                     class="w-fit"
+                    :ui="{variant:{outline:'bg-slate-700 text-slate-200 ring-0'}}"
+
                 />
             </UFormGroup>
         </UForm>
@@ -145,13 +148,13 @@ const onSubmit = async () => {
             <UFormGroup>
                 <UTextarea 
                     v-model="state.newTaskDescription"
-                    variant="none" 
+                    variant="outline" 
                     color="sky"
                     autoresize
                     :rows="2"
                     placeholder="Task Name"
                     class="mb-4"
-                    :ui="{variant:{none:'bg-slate-500/60'}}"
+                    :ui="{variant:{outline:'bg-slate-700 text-slate-200'}}"
                 />
             </UFormGroup>
             <UButton
