@@ -28,12 +28,6 @@ const state = reactive({
 
 const propTask = computed(() => props.task);
 
-watch(propTask, ()=>{
-    console.log('task watcher',propTask.value);
-    console.log(props.taskIndex);
-    
-}, {immediate:true});
-
 const handleCoverColorChange = async (newColor) => {
         await boardStore.changeCoverColor(props.columnIndex, props.taskIndex, newColor);
         boardStore.getSelectedTaskAndIndexes(route.params.taskId);
@@ -47,9 +41,9 @@ const handleTryingNewColor = (newColor) =>{
         newCoverColor.value = newColor;
     };
 
-const onSubmit = () => {
+const onSubmit = async () => {
     console.log('submitting',state.newTaskName);
-    boardStore.modifyTask(props.taskIndex, props.columnIndex, state.newTaskName, state.newTaskDescription);
+    await boardStore.modifyTask(props.taskIndex, props.columnIndex, state.newTaskName, state.newTaskDescription);
     boardStore.getSelectedTaskAndIndexes(route.params.taskId);
     nameFieldActive.value=false;
     descriptionFieldActive.value=false;
@@ -103,7 +97,7 @@ const onSubmit = () => {
             class="p-6 pt-4"
         >
         <h3 
-            class="font-semibold mb-2"
+            class="font-semibold mb-2 text-gray-300 "
             v-if="!nameFieldActive"
             @click="()=> nameFieldActive=true"
         >
@@ -123,9 +117,9 @@ const onSubmit = () => {
                 />
             </UFormGroup>
         </UForm>
-        <p class="text-sm font-light mb-6">in list {{ board.name }} </p>
+        <p class="text-md  mb-6 font-text text-gray-300">in list {{ board.name }} </p>
         <div class="mb-2 flex justify-between">
-            <h4 class="font-semibold ">
+            <h4 class="font-semibold text-gray-300 font-title">
                 Description
             </h4>
             <UButton
@@ -137,7 +131,10 @@ const onSubmit = () => {
                 Edit
             </UButton>
         </div>
-        <p v-if="task.description && !descriptionFieldActive">
+        <p 
+            v-if="task.description && !descriptionFieldActive"
+            class="text-sky-100 "    
+        >
             {{ props.task.description }}
         </p>
         <UForm 

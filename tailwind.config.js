@@ -5,6 +5,8 @@ export default {
     extend: {
       fontFamily: {
         'logo': ['Fredoka'],
+        'text': ['Dosis'],
+        'title':['Kanit']
       },
     },
   },

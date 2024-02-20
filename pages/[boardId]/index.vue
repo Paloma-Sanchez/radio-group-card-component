@@ -3,20 +3,18 @@ import { useBoardStore } from '~/stores/boardStore';
 const boardStore = useBoardStore();
 const route = useRoute();
 const router = useRouter();
+const boardTopBar=ref(null);
 const modifyTaskMenuOpen = ref(false);
 const board = computed(() => boardStore.board);
 const boardLoading = computed(() => boardStore.boardLoading);
 const maskIsVisible = computed(() => boardStore.maskIsVisible);
 const taskFieldActive = computed(() => boardStore.taskFieldActive);
-
-
 const isModalOpen =computed(() =>{
     return maskIsVisible.value?'':route.name === 'boardId-index-taskId';
 });
 
 const closeModal = () => {
     router.push(`/${board.value.id}`);
-    //boardStore.toggleTaskFieldVisibility();
 };
 
 onBeforeMount(
@@ -30,12 +28,17 @@ const onMaskClick = () => {
         boardStore.toggleTaskFieldVisibility();
     }
 }
+
+const onClickOnMain = () => {
+        console.log('activating child')
+        boardTopBar.value.onHandleClickOutsideFields();
+};
 </script>
 <template>
     <main 
         v-if="!boardLoading && board !== null"  
         :style="{backgroundImage: `url('${board.url}')`}"
-        class="c-board-id absolute h-full top-0 left-8 rounded bg-cover bg-center w-full"    
+        class="c-board-id absolute h-full top-0 left-8 rounded-lg bg-cover bg-center w-full"    
     >
        
         <div 
@@ -51,10 +54,12 @@ const onMaskClick = () => {
                 '-top-[115%]': maskIsVisible
                 }
             ]"
+            ref="boardTopBar"
         />
         <Board 
             :board="board"
             :modifyTaskMenuOpen="modifyTaskMenuOpen"
+            @click="onClickOnMain"
         />
     </main>
     <div 

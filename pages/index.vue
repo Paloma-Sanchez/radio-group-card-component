@@ -13,7 +13,6 @@ onMounted(async() => {
 
 
 watch([highlightActive, allBoards],()=>{
-    console.log('highlight',highlightActive.value);
     if(!highlightActive.value){
         boards.value=allBoards.value;
     }else{
@@ -29,9 +28,11 @@ definePageMeta({
 </script>
 
 <template>
-    <div class="c-preview-index pl-4 w-full">
+    <div class="c-preview-index pl-4 w-full mt-10">
        
-        <h1 class="text-2xl mb-6">Your boards</h1>
+        <h1 class="text-2xl font-title font-medium text-gray-300/90 mb-6 pt-2">
+            Your boards
+        </h1>
         <BoardPreviewList
             :boards="boards"
         />

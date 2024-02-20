@@ -1,7 +1,7 @@
 <template>
     <NuxtLink 
         to="/" 
-        class="flex items-center mt-3 ml-5 mb-3"
+        class="flex items-center pt-2 pl-5 pb-2 border-b text-gray-300/90 border-gray-500/90"
     >
         <UIcon
             class="mr-1"

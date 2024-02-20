@@ -28,6 +28,8 @@ export default defineNuxtConfig({
       'Montserrat Alternates': true,
       'Cinzel': true,
       'Courgette': true,
+      'Kanit':true,
+      'Dosis':true
     }
   },
   colorMode: {

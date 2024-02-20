@@ -15,7 +15,7 @@ import { useBoardStore } from '~/stores/boardStore';
     const taskFieldActive = computed(() => boardStore.taskFieldActive);
 
     ///watcher to decide when to show the modifyTask Menu Button
-    watch([modifyTaskMenuOpen, cursorOverTask, taskFieldActive, maskIsVisible], ()=>{
+    watch([cursorOverTask, taskFieldActive, maskIsVisible], ()=>{
         
         if(!maskIsVisible.value){
             if(cursorOverTask.value){
@@ -24,6 +24,7 @@ import { useBoardStore } from '~/stores/boardStore';
                 showModifyTaskButton.value = false;
             }
             coverMenuActive.value=false;
+            moveTaskMenuOpen.value=false;
         }else{
             if(taskFieldActive.value){
                 showModifyTaskButton.value = false;
@@ -51,12 +52,14 @@ import { useBoardStore } from '~/stores/boardStore';
         }
     });
 
+    //State for Form
     const state=reactive({
         newTaskName: props.task.name,
         newTaskDescription : props.task.description
 
     });
     
+    //Actions
     const deleteTask = (taskIndex, columnIndex) => {
         boardStore.toggleMaskVisibility();
         boardStore.deleteTask(taskIndex, columnIndex);
@@ -132,7 +135,7 @@ import { useBoardStore } from '~/stores/boardStore';
         {
             label: 'Change cover',
             icon: 'i-heroicons-swatch-20-solid',
-            shortcuts: ['D'],
+            shortcuts: ['C'],
             click: () => {
                 coverMenuActive.value = !coverMenuActive.value;
             }
@@ -164,30 +167,35 @@ import { useBoardStore } from '~/stores/boardStore';
             'w-full',
             'hover:ring-sky-600',
             'hover:ring',
+            'text-slate-200',
             {
                 'bg-slate-800':taskFieldActive,
                 'text-slate-50':taskFieldActive,
                 'hover:ring-transparent':taskFieldActive
             } 
             ]" 
-        :ui="{ body: {padding: 'py-0 px=0 sm:p-0' }}"
+        :ui="{ 
+                body: {padding: 'py-0 px-0 sm:p-0' },
+                background:'bg-slate-700',
+                ring:''
+            }"
+        @mouseenter="()=>taskFieldActive?'': cursorOverTask = true"
+        @mouseleave="()=>taskFieldActive?'': cursorOverTask = false"
     >
         <div 
-        v-if="task.cover || newCoverColor"
-            :class="[
-                'c-cover',
-                'h-9',
-                'w-full',
-                'px-0',
-                'py-0'
-                ]"
-        :style="{backgroundColor: `${!newCoverColor? task.cover:newCoverColor}`}"
-    >
-    </div>
+            v-if="task.cover || newCoverColor"
+                :class="[
+                    'c-cover',
+                    'h-9',
+                    'w-full',
+                    'px-0',
+                    'py-0'
+                    ]"
+            :style="{backgroundColor: `${!newCoverColor? task.cover:newCoverColor}`}"
+        >
+        </div>
         <div 
             class="flex justify-between p-3 cursor-pointer"
-            @mouseenter="()=>taskFieldActive?'': cursorOverTask = true"
-            @mouseleave="()=>taskFieldActive?'': cursorOverTask = false"
                
         >
            
@@ -217,22 +225,29 @@ import { useBoardStore } from '~/stores/boardStore';
                             label="Task Name" 
                             :error="!state.newTaskName && 'Task requires a name'"
                             required
-                            :ui="{label:{base:'text-slate-200'}}"  
+                            :ui="{label:{base:'text-gray-300'}}"  
                         >
                             <UInput 
                                 v-model="state.newTaskName"
-                                variant="outline" 
+                                color="sky"
                                 placeholder="Task Name"
-                                :trailing-icon="error ? 'i-heroicons-exclamation-triangle-20-solid' : undefined"
-                            />
+                                variant="outline" 
+                                :trailing-icon="!state.newTaskName ? 'i-heroicons-exclamation-triangle-20-solid' : undefined"
+                                :ui="{variant:{outline:'bg-slate-700 text-slate-200 ring-0'}}"
+                                />
                         </UFormGroup>
                         <UFormGroup 
-                            label="Task Description"
                             class="mb-4"
-                            :ui="{label:{base:'text-slate-200'}}"  
+                            label="Task Description"
+                            :ui="{
+                                label:{base:'text-gray-300'},
+                            }"  
                         >
                             <UTextarea 
                                 v-model="state.newTaskDescription"
+                                color="sky"
+                                :ui="{variant:{outline:'bg-slate-700 text-slate-200 ring-0'}}"
+
                             />
                         </UFormGroup>
                         <UButton 
@@ -253,16 +268,16 @@ import { useBoardStore } from '~/stores/boardStore';
                 <UDropdown 
                     :items="items" 
                     :popper="{ placement: 'right-start' }"
-                    
                 >
                     <UButton 
-                        type="button"
+                        color="white"
+                        class="ml-4"
                         icon="i-heroicons-pencil"
                         size="2xs"
-                        color="gray"
-                        class="ml-4"
+                        type="button"
                         variant="link"
                         id="modify-task-button"
+                        :disabled="(coverMenuActive||moveTaskMenuOpen)?true:false"
                         @click="onOpenModifyTaskMenu($event, task.id)" 
                     />
                 </UDropdown>

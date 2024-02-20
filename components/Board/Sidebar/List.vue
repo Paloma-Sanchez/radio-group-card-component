@@ -1,6 +1,7 @@
 <script setup>
     import { useBoardStore } from '~/stores/boardStore';
     const boardStore = useBoardStore();
+    const route = useRoute();
     const boards = computed(()=> boardStore.boards);
 
     if(boards.value === null){
@@ -9,9 +10,10 @@
 
     const emit = defineEmits(['toggleSidebarVisibility'])
 
-    const onToggleStarred = (boardId) => {
-        boardStore.toggleBoardStarred(boardId);
-        emit('toggleSidebarVisibility')
+    const onToggleStarred = async (boardId) => {
+        await boardStore.toggleBoardStarred(boardId);
+        await boardStore.loadSelectedBoard(route.params.boardId);
+        emit('toggleSidebarVisibility');
     }
 </script>
 <template>

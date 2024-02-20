@@ -59,12 +59,13 @@
     const onClickOnMain = () => {
         deactivateChildEditColumnName();
         deactivateChildNewTaskFiled();
-    }
+    };
 
 </script>
 <template>
     <div 
         :class="[
+            'c-mask',
             'board-wrapper',
             {
             'relative':maskIsVisible,

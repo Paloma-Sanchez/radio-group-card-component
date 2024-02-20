@@ -7,7 +7,6 @@
     const addNewTaskButtonLabel = ref('');
     const addNewTaskField = ref(false);
     const editColumnName = ref(false);
-   
     const showEditColumn = ref(false);
     const selectedTaskId = computed(() => boardStore.selectedTaskId);
 
@@ -85,7 +84,7 @@
         event.dataTransfer.setData('from-task-index', fromTaskIndex);
     };
 
-    //Exposing functions so that they are accessible by parent
+    //Exposing functions so that they are accessible by parent component Board
     defineExpose({
         deactivateAddNewTaskField,
         deactivateEditColumnName
@@ -101,11 +100,12 @@
         @dragover.prevent
     >
         <div class="column-header mb-4">
-            <div class="c-column-name">
+            <div class="c-column-name ml-2 ">
                 <h2 
                     v-if="!editColumnName"
-                    class="text-white"
-                    @click="editColumnName=true"
+                    class="text-gray-300 font-title text-lg"
+                    @click="()=>{editColumnName=true
+                                showEditColumn=false}"
                 >
                     {{ column.name }}
                 </h2>   
@@ -116,17 +116,18 @@
                 >
                     <UInput 
                         v-model="state.newColumnName" 
+                        class="w-11/12"
                         color="sky"
-                        :ui="{variant:{outline:'bg-slate-50'}}"
+                        :ui="{variant:{outline:'bg-slate-700 text-slate-200 ring-0 font-title'}}"
                     />
                 </UForm>
             </div>
-            <div class="c-column-menu flex">
+            <div class="c-column-menu flex items-center">
                 <div v-if="showEditColumn && !editColumnName">
                     <UButton
                         icon="i-heroicons-pencil-square"
-                        size="sm"
-                        color="sky"
+                        size="xs"
+                        color="white"
                         square
                         variant="solid"
                         class="mr-2"
@@ -135,7 +136,7 @@
                     />
                     <UButton
                         icon="i-heroicons-trash"
-                        size="sm"
+                        size="xs"
                         color="red"
                         square
                         variant="solid"
@@ -143,13 +144,14 @@
                     />
                 </div>
                 <UButton
-                    class="c-open-name-menu-button mr-2 transition-transform ease-in-out hover:scale-150 duration-100"
+                    class="c-open-name-menu-button mr-2 transition-transform ease-in-out hover:scale-150 duration-100 text-slate-100 p-0 pl-2"
                     icon="i-heroicons-ellipsis-vertical"
-                    size="sm"
+                    size="md"
                     color="white"
                     square
                     variant="link"
-                    @click="()=> showEditColumn = !showEditColumn"
+                    @click="()=> {showEditColumn = !showEditColumn;
+                                   editColumnName=false }"
                 />
             </div>
         </div>
@@ -186,9 +188,10 @@
         </ul>
         <UButton v-if="!addNewTaskField"
             class="c-add-new-task-button mr-2 "
+            :block="addNewTaskButtonLabel?true:false"
+            color="black"
             icon="i-heroicons-plus-circle-16-solid"
             size="sm"
-            color="blue"
             square
             variant="solid"
             :label="addNewTaskButtonLabel"
@@ -213,8 +216,8 @@
                     color="sky"
                     variant="outline" 
                     placeholder="Task Name" 
-                    :trailing-icon="error ? 'i-heroicons-exclamation-triangle-20-solid' : undefined"
-                    :ui="{variant:{outline:'bg-slate-50'}}"
+                    :trailing-icon="!state.newTaskName ? 'i-heroicons-exclamation-triangle-20-solid' : undefined"
+                    :ui="{variant:{outline:'bg-slate-700 text-slate-200 ring-0'}}"
                 />
             </UFormGroup>
             <UFormGroup 
@@ -224,14 +227,15 @@
                 <UTextarea 
                     v-model="state.newTaskDescription"
                     color="sky"
-                    :ui="{variant:{outline:'bg-slate-50'}}"
+                    :ui="{variant:{outline:'bg-slate-700 text-slate-200 ring-0'}}"
                 />
             </UFormGroup>
-            <div class="flex items-center mt-4">
+            <div class="flex items-center mt-4 w-full">
                 <UButton 
-                type="submit"
-                color="blue"
-                :disabled="!state.newTaskName?true:false"
+                    class="w-[83.5%] text-center"
+                    type="submit"
+                    color="black"
+                    :disabled="!state.newTaskName?true:false"
                 >
                 Add
                 </UButton>
@@ -239,10 +243,10 @@
                     type="button"
                     icon="i-heroicons-x-circle-16-solid"
                     size="sm"
-                    color="blue"
+                    color="black"
                     square
                     variant="solid"
-                    class="ml-4"
+                    class="ml-2"
                     @click="addNewTaskField = !addNewTaskField"
                 />
             </div>
