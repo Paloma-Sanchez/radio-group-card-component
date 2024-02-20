@@ -4,7 +4,7 @@
       "name": "task-boards",
       "id": "e1fc641b-0e18-4256-bed7-d7cd91d4c1ac",
       "url": "https://www.peruhop.com/wp-content/uploads/full-day-tour-main.jpg",
-      "starred": false,
+      "starred": true,
       "columns": [
         {
           "name": "todo",
@@ -18,6 +18,11 @@
             {
               "id": "497d51dd-2a0c-484c-b562-4b003fc582ad",
               "name": "Task #79",
+              "description": ""
+            },
+            {
+              "id": "736594bf-a7d1-497c-9a78-ad0cfb86fbd1",
+              "name": "ef",
               "description": ""
             }
           ]
@@ -155,7 +160,7 @@
     {
       "id": "29c4809a-3177-423d-b8e6-0cea7134cb51",
       "name": "weekly report",
-      "url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Rainbow_Mountain_Peru.jpg",
+      "url": "https://portal.andina.pe/EDPfotografia3/Thumbnail/2023/06/06/000964426W.jpg",
       "starred": true,
       "columns": []
     }

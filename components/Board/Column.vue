@@ -2,7 +2,6 @@
     import { useBoardStore } from '~/stores/boardStore';
     import { v4 as uuidv4 } from 'uuid';
     const boardStore = useBoardStore();
-    const route = useRoute();
     const toast = useToast();
     const addNewTaskButtonLabel = ref('');
     const addNewTaskField = ref(false);
@@ -57,6 +56,10 @@
         editColumnName.value = false;
     };
 
+    const deactivateShowEditColumn = () => {
+        showEditColumn.value =false;
+    };
+
     const deleteColumn = (columnName) => {
             boardStore.deleteColumn(columnName);
             toast.add({
@@ -87,7 +90,8 @@
     //Exposing functions so that they are accessible by parent component Board
     defineExpose({
         deactivateAddNewTaskField,
-        deactivateEditColumnName
+        deactivateEditColumnName,
+        deactivateShowEditColumn
     });
 
 </script>
@@ -234,8 +238,12 @@
                 <UButton 
                     class="w-[83.5%] text-center"
                     type="submit"
-                    color="black"
+                    color="white"
                     :disabled="!state.newTaskName?true:false"
+                    :ui="{
+                        inline:'justify-center',
+                        color:{white:{solid:'hover:bg-sky-700 hover:text-sky-200 hover:ring-0'}}
+                    }"    
                 >
                 Add
                 </UButton>

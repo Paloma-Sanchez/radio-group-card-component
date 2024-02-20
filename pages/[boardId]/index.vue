@@ -21,18 +21,19 @@ onBeforeMount(
     async() => await boardStore.loadSelectedBoard(route.params.boardId)
 );
 
+const onDeactivateTopBarFeatures = () => {
+    boardTopBar.value.onHandleClickOutsideFields();
+};
+
 const onMaskClick = () => {
     boardStore.toggleMaskVisibility();
     modifyTaskMenuOpen.value = !modifyTaskMenuOpen.value;
     if(taskFieldActive.value){
         boardStore.toggleTaskFieldVisibility();
-    }
-}
-
-const onClickOnMain = () => {
-        console.log('activating child')
-        boardTopBar.value.onHandleClickOutsideFields();
+    };
 };
+
+
 </script>
 <template>
     <main 
@@ -59,13 +60,15 @@ const onClickOnMain = () => {
         <Board 
             :board="board"
             :modifyTaskMenuOpen="modifyTaskMenuOpen"
-            @click="onClickOnMain"
+            ref="boardComponent"
+            @closeSideBar="$emit('closeSideBar')"
+            @deactivateTopBarFeatures="onDeactivateTopBarFeatures"
         />
     </main>
     <div 
         v-show="isModalOpen"
         class="task-bg flex justify-center"
-        @click.self="closeModal"
+        @click="closeModal"
     >
         <NuxtPage :key="route.fullPath"/>
     </div>

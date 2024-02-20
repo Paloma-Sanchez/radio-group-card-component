@@ -12,6 +12,8 @@
         }
     });
 
+    const emit= defineEmits(['closeSideBar', 'deactivateTopBarFeatures']);
+
     const addColumn = () => {
         if(!newColumnName.value){
             return;
@@ -56,9 +58,18 @@
         });
     };
 
+    const deactivateChildShowEditColumnName = () => {
+        boardColumn.value.forEach((column) => {
+            column.deactivateShowEditColumn();
+        });
+    };
+
     const onClickOnMain = () => {
         deactivateChildEditColumnName();
         deactivateChildNewTaskFiled();
+        deactivateChildShowEditColumnName();
+        emit('closeSideBar');
+        emit('deactivateTopBarFeatures');
     };
 
 </script>
