@@ -11,7 +11,7 @@ const state = reactive({
 </script>
 <template>
     <div
-        class="bg-slate-500 text-slate-50 p-4 rounded-lg text-center"
+        class="bg-slate-500 text-slate-50 p-4 rounded-lg text-center h-min absolute"
     >
         <p
             class="text-lg pb-4"
@@ -20,7 +20,7 @@ const state = reactive({
         </p>
         <UForm
             :state="state"
-            @submit.prevent="$emit('createNewBoard', state.newBoardTitle, state.selectedBackground)"
+            @submit="$emit('createNewBoard', state.newBoardTitle, state.selectedBackground)"
         >
             <UFormGroup 
                 name="background" 
@@ -59,14 +59,14 @@ const state = reactive({
                 name="boardTitle"
                 required
                 :ui="{
-                    label: {base:'text-base text-slate-50'}
+                    label: {base:'text-base text-slate-50'},
                 }"
             >
                 <UInput
                     v-model="state.newBoardTitle"
-                    color="white"
+                    color="sky"
                     placeholder="Ex: New Board"
-                    :ui="{color:{white:{outline:'bg-slate-50/90 focus:ring-slate-800 ring-gray-700'}}}"
+                    :ui="{variant:{outline:'bg-slate-700 text-slate-200 ring-0'}}"
                 />
             </UFormGroup>
             <UButton

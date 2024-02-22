@@ -3,7 +3,7 @@
     {
       "name": "task-boards",
       "id": "e1fc641b-0e18-4256-bed7-d7cd91d4c1ac",
-      "url": "https://www.peruhop.com/wp-content/uploads/full-day-tour-main.jpg",
+      "url": "https://wallpapercave.com/wp/wp11786307.jpg",
       "starred": true,
       "columns": [
         {
@@ -162,6 +162,13 @@
       "name": "weekly report",
       "url": "https://portal.andina.pe/EDPfotografia3/Thumbnail/2023/06/06/000964426W.jpg",
       "starred": true,
+      "columns": []
+    },
+    {
+      "id": "dacd8554-0581-43aa-af7e-7cb54bf0d6e7",
+      "name": "blabla",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Rainbow_Mountain_Peru.jpg",
+      "starred": false,
       "columns": []
     }
   ]

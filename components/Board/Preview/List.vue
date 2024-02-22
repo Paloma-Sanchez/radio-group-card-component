@@ -16,14 +16,18 @@ const props = defineProps({
     }
 });
 
-const handleNewBoardCreation = (boardName, url) => {
-    //console.log('creating board', boardName, url);
-    boardStore.createNewBoard(boardName, url);
+const deactivateCreateNewBoard = () => {
     createNewBoardActive.value=false;
-}
+};
+
+
+
+defineExpose({
+    deactivateCreateNewBoard
+})
 </script>
 <template>
-    <div class="c-preview-list grid  gap-3 grid-cols-4 sm:grid-cols-2 w-11/12 border-solid border-slate-900">
+    <div class="c-preview-list grid  gap-3 grid-cols-4 sm:grid-cols-2 w-11/12 h-fit border-solid border-slate-900">
         <BoardPreview v-for="board in boards" 
             :board="board"
             class="border-orange-500"
@@ -33,20 +37,9 @@ const handleNewBoardCreation = (boardName, url) => {
         >
             <BoardPreview
                 :board="boardForCreatingNewBoard"
-                @click="() => createNewBoardActive=!createNewBoardActive"
+                @click="$emit('toggleNewBoardConfig')"
             />
-            <NewBoardConfig
-                :class="[
-                    'relative',
-                    '-top-[60%]',
-                    '-left-[304px]',
-                    'w-[304px]',
-                    {
-                        'invisible': !createNewBoardActive
-                    }
-                    ]"
-                @createNewBoard="handleNewBoardCreation"
-            />
+            
         </div>
     </div>
 </template>
