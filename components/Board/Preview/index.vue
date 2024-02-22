@@ -49,7 +49,7 @@
             <div 
                 
             >
-                <p class="text-slate-50 pt-4 pl-4 text-lg font-semibold w-full h-full">
+                <p class="text-slate-50 pt-4 md:pt-2 pl-4 text-lg font-semibold w-full h-full">
                     {{ board.name }}
                 </p>
             </div>     
