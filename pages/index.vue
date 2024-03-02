@@ -1,68 +1,38 @@
 <script setup>
-import { useBoardStore } from '~/stores/boardStore';
-const boardStore = useBoardStore();
-const boardPreviewList = ref(null)
-const createNewBoardActive = ref(false);
+const options = [
+  {
+    value: 'Startup',
+    label: 'Startup',
+    description:['12GB', '6 CPUs', '160 GB SSD disk'],
+    icon:'i-heroicons-trash'
+  },
+  {
+    value: 'Business',
+    label: 'Business',
+    description:['16GB', '8 CPUs', '512 GB SSD disk'],
+    icon:''
+  },
+  {
+    value: 'Enterprise',
+    label: 'Enterprise',
+    description:['32GB', '12 CPUs', '1024 GB SSD disk'],
+    icon:''
+  },
+];
 
-const allBoards = computed(()=>boardStore.boards); 
-const highlightedBoards = computed(()=>boardStore.getStarredBoards); 
-const highlightActive = computed(()=>boardStore.highlightsActive);
-const boards = ref({});
+const selected = ref(options[0].value);
 
-//load boards info
-onMounted(async() => {
-    await boardStore.loadBoards();
-    boards.value = boardStore.boards;
-});
-
-definePageMeta({
-    layout:"landing"
-});
-
-//display all bords or just hightlights
-watch([highlightActive, allBoards],()=>{
-    if(!highlightActive.value){
-        boards.value=allBoards.value;
-    }else{
-        boards.value=highlightedBoards.value;
-    };
-});
-
-//methods
-const handleNewBoardCreation = (boardName, url) => {
-    //console.log('creating board', boardName, url);
-    boardStore.createNewBoard(boardName, url);
-    createNewBoardActive.value=false;
-};
-
+///no necesito color porque es para el radio button en si mismo
 </script>
 
 <template>
-    <div 
-        class="c-preview-index pl-4 w-full mt-10"
-        @click.self="createNewBoardActive=false"
-    >
-       
-        <h1 class="text-2xl font-title font-medium text-gray-300/90 mb-6 pt-2">
-            Your boards
-        </h1>
-        <BoardPreviewList
-            :boards="boards"
-            ref="boardPreviewList"
-            @toggleNewBoardConfig="() => createNewBoardActive=!createNewBoardActive"
-        />
-        <NewBoardConfig
-                :class="[
-                    'relative',
-                    '-top-[60%]',
-                    'w-[304px]',
-                    'h-min',
-                    {
-                        'invisible': !createNewBoardActive
-                    }
-                    ]"
-                @createNewBoard="handleNewBoardCreation"
-            />
-    </div>
-    
+   <RadioGroupR
+        :options="options"
+        :modelValue="selected"
+        v-model="selected"
+        legend="helle wordl"
+   />
+   <URadioGroup
+    :options="options"
+   />
 </template>
