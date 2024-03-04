@@ -20,6 +20,7 @@
           :ui="uiRadio"
           :color="color"
           :size="size"
+          :bordOnly="bordOnly"
           @change="onUpdate(option.value)"
         >
         <template #label>
@@ -103,6 +104,10 @@ export default defineComponent({
     size:{
       type:String,
       default:'md'
+    },
+    bordOnly:{
+      type:Boolean,
+      default:false
     }
   },
   emits: ['update:modelValue', 'change'],

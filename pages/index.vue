@@ -58,6 +58,7 @@ const selected = ref(options[0].value);
         v-model="selected"
         legend="helle wordl"
         color="sky"
+        :bordOnly="true"
    />
 
    <RadioGroupCard

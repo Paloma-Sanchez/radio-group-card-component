@@ -19,7 +19,6 @@
                 {
                     'cursor-not-allowed':disabled,
                     'opacity-50':disabled,
-                    'text-white':checked
                 }
             ]"
             :for="inputId"
@@ -46,15 +45,28 @@
                         <span
                             v-if="size==='md'"
                             v-for="description in option.description"
-                            :class="ui.description"
+                            :class="descriptionClass"
                         >
                             {{ description}}  
                         </span>
                         <span
                             v-if="size==='sm'"
                         >
-                            <div>{{option.description[0]}}</div>
-                            <div>{{option.description[1]}}</div>
+                            <div
+                                :class="descriptionClass"
+                            >
+                                {{option.description[0]}}
+                            </div>
+                            <div
+                                :class="ui.extradescription"
+                            >
+                                {{option.description[1]}}
+                            </div>
+                        </span>
+                        <span
+                            v-if="size==='xs'"
+                        >
+
                         </span>
                     </div>
                 </div>
@@ -151,6 +163,13 @@
                 //validator (value: string) {
                   //  return appConfig.ui.colors.includes(value)
                 //}
+            },
+            bordOnly:{
+                type: Boolean,
+                default: false
+                //validator (value: string) {
+                  //  return appConfig.ui.colors.includes(value)
+                //}
             }
         },
 
@@ -181,12 +200,28 @@
             const checked = computed(() => props.modelValue === props.value )
             //const size = computed(() => props.size )
 
+            const descriptionClass= computed(() => {
+                const mergedClass = (checked.value && !props.bordOnly)? twJoin(
+                    ui.value.description.unchecked,
+                    ui.value.description.checked
+                ):ui.value.description.unchecked
+
+                return mergedClass
+            })
+
             const iconClass = computed(() => {
-                const uncheckedBox = checked.value? '':'text-gray-400'
+                let textColor = ''
+                if(checked.value){
+                    if(props.bordOnly){
+                        textColor = `text-${props.color}-500`
+                    }
+                }else{
+                    textColor = 'text-gray-400'
+                }
 
                 return twJoin(
                     ui.value.icon[props.size],
-                    uncheckedBox
+                    textColor
                 )
             })
 
@@ -203,12 +238,28 @@
             })
             
             const wrapperClass = computed(() => {
-                const bg= checked.value? 'bg-{color}-500' : 'bg-{color}-50'
-                const ring = checked.value? ui.value.ring : ''
+                const bg= (checked.value && !props.bordOnly)? ui.value.background.checked : ui.value.background.unchecked
+                let container = ''
+                if(checked.value && props.bordOnly){
+                    container= `text-${props.color}-500`
+                    
+                } else if(checked.value){
+                    container = ui.value.container.checked 
+                }else{
+                    container= ui.value.container.unchecked
+                }
+              
+                let ring = checked.value? ui.value.ring : ''
+                if(props.bordOnly){
+                    ring = ring.replaceAll('ring-offset-2 ring-offset-white', ' ')
+                    ring = ring.replaceAll('ring-2', 'ring-4')
+                }
+
                 return twMerge(twJoin(
                     props.size && appConfig.ui.colors.includes(props.color) && ui.value.wrapper[props.size],
                     bg.replaceAll('{color}', props.color),
-                    ring.replaceAll('{color}', props.color)
+                    ring.replaceAll('{color}', props.color),
+                    container
                 ))
             })
 
@@ -222,6 +273,7 @@
                 // eslint-disable-next-line vue/no-dupe-keys
                 name,
                 // eslint-disable-next-line vue/no-dupe-keys
+                descriptionClass,
                 iconClass,
                 labelClass,
                 labelCenterClass,
