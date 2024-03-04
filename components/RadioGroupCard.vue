@@ -7,7 +7,7 @@
           {{color}}
         </slot>
       </legend>
-      <div class="space-y-2">
+      <div :class="containerClass">
         <RadioCard
           v-for="option in normalizedOptions"
           :key="option.value"
@@ -151,13 +151,18 @@ export default defineComponent({
         return props.options.map(option => normalizeOption(option))
         })
 
-        const wrapperClass = computed(() => {
-                console.log('size from group', props.size);
+        const containerClass = computed(() => {
+          return twMerge(twJoin(
+            props.size && ui.value.container[props.size],
+            
+          ))
+        })
 
-                return twMerge(twJoin(
-                    props.size && ui.value.wrapper[props.size],
-                ))
-            })
+        const wrapperClass = computed(() => {
+          return twMerge(twJoin(
+            props.size && ui.value.wrapper[props.size],
+          ))
+        })
 
         return {
         // eslint-disable-next-line vue/no-dupe-keys
@@ -168,6 +173,7 @@ export default defineComponent({
         normalizedOptions,
         // eslint-disable-next-line vue/no-dupe-keys
         onUpdate,
+        containerClass,
         wrapperClass
         }
     }

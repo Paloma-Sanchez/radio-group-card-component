@@ -6,8 +6,8 @@ export default defineAppConfig({
     colors: colors,
     radioCard:{
       wrapper: {
-        xs:'xs w-full p-2 aspect-ratio rounded-md',
-        sm:'sm w-full p-4 aspect-ratio rounded-md',
+        xs:'xs w-[80px] p-2 aspect-ratio rounded-md',
+        sm:'sm w-[200px] p-4 aspect-ratio rounded-md',
         md:'md h-[72px]  rounded-md',
       },
       container: {
@@ -50,9 +50,14 @@ export default defineAppConfig({
     },
     radioGroup:{
       wrapper: {
-        xs:'w-[80px]',
-        sm:'w-[200px] ',
+        xs:'',
+        sm:' ',
         md:'w-[448px] relative flex items-start',
+      },
+      container:{
+        xs:'space-x-2 w-max flex',
+        sm:'space-x-2 w-max flex',
+        md:'space-y-2 w-max',
       },
       legend: 'text-sm font-medium text-gray-700 dark:text-gray-200 mb-1',
       default: {
