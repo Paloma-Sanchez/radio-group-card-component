@@ -15,10 +15,10 @@ export default defineAppConfig({
       color: 'text-{color}-500 dark:text-{color}-400',
       background: 'bg-{color}-100 checked:bg-{color}-500 dark:bg-gray-900',
       border: 'border border-gray-300 dark:border-gray-700',
-      ring: 'focus-visible:ring-2 focus-visible:ring-{color}-500 dark:focus-visible:ring-{color}-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900 ',
+      ring: 'ring-2 ring-{color}-500 dark:ring-{color}-400 ring-offset-2 ring-offset-white dark:ring-offset-gray-900 ',
       icon:{
-        sm:'-mt-11',
-        md:'ml-4'
+        sm:'-mt-11 h-5 w-5',
+        md:'ml-4 h-5 w-5'
       },
       inner: 'flex items-center pr-3',
       innerlabel:'mb-2 text-md font-semibold',

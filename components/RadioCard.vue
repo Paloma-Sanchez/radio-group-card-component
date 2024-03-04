@@ -204,10 +204,11 @@
             
             const wrapperClass = computed(() => {
                 const bg= checked.value? 'bg-{color}-500' : 'bg-{color}-50'
-
+                const ring = checked.value? ui.value.ring : ''
                 return twMerge(twJoin(
                     props.size && appConfig.ui.colors.includes(props.color) && ui.value.wrapper[props.size],
                     bg.replaceAll('{color}', props.color),
+                    ring.replaceAll('{color}', props.color)
                 ))
             })
 
