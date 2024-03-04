@@ -1,6 +1,6 @@
 <template>
     <div
-        :class="ui.wrapper"
+        :class="wrapperClass"
     >
         <input
             :id="inputId"
@@ -10,43 +10,69 @@
             :required="required"
             :value="value"
             type="radio"
-            :class="inputClass"
             :checked="checked"
+            v-bind="attrs"
         />
         <label
             :class="[
-                ui.label, 
+                labelClass, 
                 {
                     'cursor-not-allowed':disabled,
-                    'opacity-50':disabled
+                    'opacity-50':disabled,
+                    'text-white':checked
                 }
             ]"
             :for="inputId"
         >
-            <div
-                class="flex items-center"
+            <slot
+                name="label"
             >
-                <UIcon 
-                    v-if="option.icon"
-                    :name="option.icon"
-                />
-                <div
-                    class="pl-3"
+                <div 
+                    class="flex items-center"
                 >
-                    {{ label }}
-                    <br>
-                    <span
-                        v-for="description in option.description"
-                        class="border-slate-800 border-r-2 pl-3 first:pl-5 pr-3  last:border-r-0"
+                    <Icon 
+                        :class="iconClass"
+                        v-if="option.icon"
+                        :name="option.icon"
+                    />
+                    <div
+                        :class="labelCenterClass"
                     >
-                        {{ description }} 
-                    </span>
+                        <div
+                            :class="ui.innerlabel"
+                        >
+                            {{ label }}
+                        </div>
+                        <span
+                            v-if="size==='md'"
+                            v-for="description in option.description"
+                            :class="ui.description"
+                        >
+                            {{ description}}  
+                        </span>
+                        <span
+                            v-if="size==='sm'"
+                        >
+                            <div>{{option.description[0]}}</div>
+                            <div>{{option.description[1]}}</div>
+                        </span>
+                    </div>
                 </div>
-            </div>
-            <UIcon
-                class="text-slate-800 "
-                name="i-heroicons-check-solid"
-            />
+                <slot
+                    name="label-right"
+                >
+                    <Icon
+                        v-if="!checked"
+                        :class="iconClass"
+                        name="i-material-symbols-radio-button-unchecked" 
+                    />
+                    <Icon
+                        v-else
+                        :class="iconClass"
+                        name="i-material-symbols-radio-button-checked"
+                    />
+                </slot>
+            </slot>
             <span v-if="required" :class="ui.required">*</span>
         </label>
     </div>
@@ -60,7 +86,7 @@
     import { v4 as uuidv4 } from 'uuid'
     import { radio } from '../ui.config'
     import colors from '#ui-colors'
-    const config = mergeConfig<typeof radio>("merge", appConfig.ui.radio, radio)
+    const config = mergeConfig<typeof radio>("merge", appConfig.ui.radioCard, radio)
     
     export default defineComponent({
         props: {
@@ -99,9 +125,9 @@
             color: {
                 type: String as PropType<typeof colors[number]>,
                 default: () => config.default.color,
-                /*validator (value: string) {
+                validator (value: string) {
                     return appConfig.ui.colors.includes(value)
-                }*/
+                }
             },
             inputClass: {
                 type: String,
@@ -118,6 +144,13 @@
             option:{
                 type:Object,
                 default:() => ''
+            },
+            size:{
+                type: String,
+                default: () => config.default.size
+                //validator (value: string) {
+                  //  return appConfig.ui.colors.includes(value)
+                //}
             }
         },
 
@@ -136,7 +169,6 @@
                 return props.modelValue
             },
             set (value) {
-                console.log('value', value)
                 emit('update:modelValue', value)
                 emit('change', value)
     
@@ -146,19 +178,39 @@
             }
             })
     
-            const checked = computed(() => props.modelValue === props.option )
-    
-            const inputClass = computed(() => {
-            return twMerge(twJoin(
-                ui.value.base,
-                ui.value.form,
-                ui.value.background,
-                ui.value.border,
-                color.value && ui.value.ring.replaceAll('{color}', color.value),
-                color.value && ui.value.color.replaceAll('{color}', color.value)
-            ), props.inputClass)
+            const checked = computed(() => props.modelValue === props.value )
+            //const size = computed(() => props.size )
+
+            const iconClass = computed(() => {
+                const uncheckedBox = checked.value? '':'text-gray-400'
+
+                return twJoin(
+                    ui.value.icon[props.size],
+                    uncheckedBox
+                )
             })
-    
+
+            const labelClass = computed(() => {
+                return twMerge(twJoin(
+                    ui.value.label[props.size],
+                ))
+            })
+
+            const labelCenterClass = computed(() => {
+                return twMerge(twJoin(
+                    ui.value.labelcenter[props.size],
+                ))
+            })
+            
+            const wrapperClass = computed(() => {
+                const bg= checked.value? 'bg-{color}-500' : 'bg-{color}-50'
+
+                return twMerge(twJoin(
+                    props.size && appConfig.ui.colors.includes(props.color) && ui.value.wrapper[props.size],
+                    bg.replaceAll('{color}', props.color),
+                ))
+            })
+
             return {
                 inputId,
                 // eslint-disable-next-line vue/no-dupe-keys
@@ -169,21 +221,23 @@
                 // eslint-disable-next-line vue/no-dupe-keys
                 name,
                 // eslint-disable-next-line vue/no-dupe-keys
-                inputClass
+                iconClass,
+                labelClass,
+                labelCenterClass,
+                wrapperClass
             }
       }
     })
+
+    /*[
+            ui.wrapper.md, 
+            checked?`bg-${color}-500`:'bg-white'
+            ]*/
     </script>
     <style scoped>
     input[type="radio"] {
         display: none;
       }
-      input[type="radio"]+ label {
-        padding: 0.3rem 0.5rem;
-        border: 1px dashed #ccc;
-      }
-      input[type="radio"]:checked + label {
-        border: 1px solid #000;
-      }
-    
+     
+      
     </style>

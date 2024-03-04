@@ -1,13 +1,14 @@
 <template>
-  <div :class="ui.wrapper">
+  <div :class="wrapperClass">
     <div class="mx-auto w-full max-w-md">
       <legend v-if="legend || $slots.legend" :class="ui.legend">
         <slot name="legend">
           {{ legend }}
+          {{color}}
         </slot>
       </legend>
       <div class="space-y-2">
-        <Radio 
+        <RadioCard
           v-for="option in normalizedOptions"
           :key="option.value"
           :label="option.label"
@@ -17,15 +18,22 @@
           :disabled="option.disabled || disabled"
           :option="option"
           :ui="uiRadio"
+          :color="color"
+          :size="size"
           @change="onUpdate(option.value)"
-        />
+        >
+        <template #label>
+          <slot name="label" v-bind="{ option }" />
+        </template>
+        </RadioCard>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { computed, defineComponent, provide, toRef } from 'vue'
-import Radio from './Radio.vue'
+import RadioCard from './RadioCard.vue'
+import { twMerge, twJoin } from 'tailwind-merge'
 import { useUI } from '../composables/useUI'
 import { useFormGroup } from '../composables/useFormGroup'
 import { mergeConfig, get } from '../utils'
@@ -35,11 +43,11 @@ import { radioGroup, radio} from '#ui/ui.config'
 import colors from '#ui-colors'
 
 const config = mergeConfig<typeof radioGroup>("merge", appConfig.ui.radioGroup, radioGroup)
-const configRadio = mergeConfig<typeof radio>("merge", appConfig.ui.radio, radio)
+const configRadio = mergeConfig<typeof radio>("merge", appConfig.ui.radioCard, radio)
 
 export default defineComponent({
   components: {
-    Radio
+    RadioCard
   },
   
   inheritAttrs: false,
@@ -91,6 +99,10 @@ export default defineComponent({
     uiRadio: {
       type: Object as PropType<Partial<typeof configRadio> & { strategy?: Strategy }>,
       default: () => ({})
+    },
+    size:{
+      type:String,
+      default:'md'
     }
   },
   emits: ['update:modelValue', 'change'],
@@ -102,7 +114,6 @@ export default defineComponent({
         provide('radio-group', { color, name })
 
         const onUpdate = (value: any) => {
-          console.log('hello group', value)
           emit('update:modelValue', value)
           emit('change', value)
           emitFormChange()
@@ -135,6 +146,14 @@ export default defineComponent({
         return props.options.map(option => normalizeOption(option))
         })
 
+        const wrapperClass = computed(() => {
+                console.log('size from group', props.size);
+
+                return twMerge(twJoin(
+                    props.size && ui.value.wrapper[props.size],
+                ))
+            })
+
         return {
         // eslint-disable-next-line vue/no-dupe-keys
         ui,
@@ -143,7 +162,8 @@ export default defineComponent({
         attrs,
         normalizedOptions,
         // eslint-disable-next-line vue/no-dupe-keys
-        onUpdate
+        onUpdate,
+        wrapperClass
         }
     }
 })

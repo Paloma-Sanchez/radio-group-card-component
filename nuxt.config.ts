@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     '@nuxt/ui', 
     '@vueuse/nuxt',
     '@nuxtjs/google-fonts',
+    'nuxt-icon'
   ],
   googleFonts: {    
     families: {
@@ -34,5 +35,8 @@ export default defineNuxtConfig({
   },
   colorMode: {
     preference: 'light'
+  },
+  ui: {
+    safelistColors: ["red","orange","amber","yellow","lime","green","emerald","teal","cyan","sky","blue","indigo","violet","purple","fuchsia","pink","rose","primary"]
   }
 })
