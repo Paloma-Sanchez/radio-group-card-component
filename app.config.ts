@@ -6,6 +6,7 @@ export default defineAppConfig({
     colors: colors,
     radioCard:{
       wrapper: {
+        xs:'xs w-full p-2 aspect-ratio rounded-md',
         sm:'sm w-full p-4 aspect-ratio rounded-md',
         md:'md h-[72px]  rounded-md',
       },
@@ -26,8 +27,8 @@ export default defineAppConfig({
         sm:'-mt-11 h-5 w-5',
         md:'ml-4 h-5 w-5'
       },
-      inner: 'flex items-center pr-3',
-      innerlabel:'mb-2 text-md font-semibold',
+      innerr:'flex items-center',
+      innerlabel:' text-md font-semibold',
       labelcenter:{
         sm:'labelcenter',
         md:'labelcenter pl-3'
@@ -38,7 +39,7 @@ export default defineAppConfig({
       },
       description:{
         checked:'text-white',
-        unchecked:'pl-3 first-of-type:pl-0 pr-1 font-light text-gray-500'
+        unchecked:'pl-3 mt-2 first-of-type:pl-0 pr-1 font-light text-gray-500'
       },
       extradescription:'mt-2',
       required: 'text-sm text-red-500 dark:text-red-400',
@@ -49,6 +50,7 @@ export default defineAppConfig({
     },
     radioGroup:{
       wrapper: {
+        xs:'w-[80px]',
         sm:'w-[200px] ',
         md:'w-[448px] relative flex items-start',
       },

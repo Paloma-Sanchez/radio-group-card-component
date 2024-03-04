@@ -1,5 +1,6 @@
 export default {
     wrapper: {
+      xs:'rounded-md',
       sm:'sm w-full p-4 aspect-ratio rounded-md',
       md:'md h-[72px]  rounded-md',
     },
@@ -20,8 +21,8 @@ export default {
       sm:'-mt-11 h-5 w-5',
       md:'ml-4 h-5 w-5'
     },
-    inner: 'flex items-center pr-3',
-    innerlabel:'mb-2 text-md font-semibold',
+    innerr:'flex items-center',
+    innerlabel:'innerlabel mb-2 text-md font-semibold',
     labelcenter:{
       sm:'labelcenter',
       md:'labelcenter pl-3'

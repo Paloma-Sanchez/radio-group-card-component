@@ -44,6 +44,25 @@ const options2 =[
     description:['1 business day', '$25.00']
   }
 ]
+
+const options3 = [
+  {
+    value:'4 GB',
+    label:'4 GB'
+  },
+  {
+    value:'8 GB',
+    label:'8 GB'
+  },
+  {
+    value:'16 GB',
+    label:'16 GB'
+  },
+  {
+    value:'32 GB',
+    label:'32 GB'
+  },
+]
 const selected = ref(options[0].value);
 
 ///no necesito color porque es para el radio button en si mismo
@@ -68,6 +87,14 @@ const selected = ref(options[0].value);
         v-model="selected"
         legend="hello twice"
         color="fuchsia"
+   />
+   <RadioGroupCard
+        :options="options3"
+        :modelValue="selected"
+        size="xs"
+        v-model="selected"
+        legend="hello 3x"
+        color="violet"
    />
   <RadioGroupCard 
     v-model="selected"  

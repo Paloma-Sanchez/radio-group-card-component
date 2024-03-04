@@ -27,7 +27,7 @@
                 name="label"
             >
                 <div 
-                    class="flex items-center"
+                    :class="innerClass"
                 >
                     <Icon 
                         :class="iconClass"
@@ -63,14 +63,11 @@
                                 {{option.description[1]}}
                             </div>
                         </span>
-                        <span
-                            v-if="size==='xs'"
-                        >
-
-                        </span>
+                        
                     </div>
                 </div>
                 <slot
+                    v-if="size!=='xs'"
                     name="label-right"
                 >
                     <Icon
@@ -225,6 +222,16 @@
                 )
             })
 
+            const innerClass = computed(() => {
+                let justify =''
+                props.size==='xs'?justify='justify-center':''
+
+                return twMerge(twJoin(
+                    ui.value.innerr,
+                    justify
+                ))
+            })
+
             const labelClass = computed(() => {
                 return twMerge(twJoin(
                     ui.value.label[props.size],
@@ -255,6 +262,9 @@
                     ring = ring.replaceAll('ring-2', 'ring-4')
                 }
 
+                let justify =''
+                props.size==='xs'?justify='justify-center':''
+
                 return twMerge(twJoin(
                     props.size && appConfig.ui.colors.includes(props.color) && ui.value.wrapper[props.size],
                     bg.replaceAll('{color}', props.color),
@@ -275,6 +285,7 @@
                 // eslint-disable-next-line vue/no-dupe-keys
                 descriptionClass,
                 iconClass,
+                innerClass,
                 labelClass,
                 labelCenterClass,
                 wrapperClass
