@@ -183,3 +183,4 @@ export default defineComponent({
 })
 
 </script>
+module.exports = helloNpm
