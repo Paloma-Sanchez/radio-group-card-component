@@ -66,21 +66,23 @@
                         
                     </div>
                 </div>
-                <slot
+                <div
                     v-if="size!=='xs'"
-                    name="label-right"
                 >
-                    <Icon
-                        v-if="!checked"
-                        :class="iconClass"
-                        name="i-material-symbols-radio-button-unchecked" 
-                    />
-                    <Icon
-                        v-else
-                        :class="iconClass"
-                        name="i-material-symbols-radio-button-checked"
-                    />
-                </slot>
+                    
+                    <slot name="checkIcon" >
+                        <Icon
+                            v-if="!checked"
+                            :class="iconClass"
+                            name="i-material-symbols-radio-button-unchecked" 
+                        />
+                        <Icon
+                            v-else
+                            :class="iconClass"
+                            name="i-material-symbols-radio-button-checked"
+                        />
+                    </slot>
+                </div>
             </slot>
             <span v-if="required" :class="ui.required">*</span>
         </label>

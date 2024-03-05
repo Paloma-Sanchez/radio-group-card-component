@@ -86,8 +86,17 @@ const selected = ref(options[0].value);
         size="sm"
         v-model="selected"
         legend="hello twice"
-        color="fuchsia"
-   />
+        :bordOnly="true"
+        :uiRadio="{background:{unchecked:'bg-white'},
+        }"
+   >
+   <template #checkIcon="{ option }">
+    <p class="italic">
+      <Icon :name="option.icon" />
+      {{ option.label }}
+    </p>
+  </template>
+  </RadioGroupCard>
    <RadioGroupCard
         :options="options3"
         :modelValue="selected"
@@ -95,6 +104,8 @@ const selected = ref(options[0].value);
         v-model="selected"
         legend="hello 3x"
         color="violet"
+        :bordOnly="true"
+
    />
   <RadioGroupCard 
     v-model="selected"  

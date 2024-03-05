@@ -24,7 +24,10 @@
           @change="onUpdate(option.value)"
         >
         <template #label>
-          <slot name="label" v-bind="{ option }" />
+          <slot name="label" v-bind="{ option }"  />
+        </template>
+        <template #checkIcon>
+          <slot name="checkIcon" v-bind="{ option }"/>
         </template>
         </RadioCard>
       </div>
