@@ -1,8 +1,8 @@
 export default {
     wrapper: {
-      xs:'rounded-md',
-      sm:'sm w-full p-4 aspect-ratio rounded-md',
-      md:'md h-[72px]  rounded-md',
+      xs:'rounded-md font-sans',
+      sm:'sm w-full p-4 aspect-ratio rounded-md font-sans',
+      md:'md h-[72px] rounded-md font-sans',
     },
     container: {
       unchecked:'text-gray-700',

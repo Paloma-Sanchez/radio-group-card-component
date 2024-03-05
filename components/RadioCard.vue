@@ -69,7 +69,6 @@
                 <div
                     v-if="size!=='xs'"
                 >
-                    
                     <slot name="checkIcon" >
                         <Icon
                             v-if="!checked"

@@ -21,16 +21,7 @@ export default defineNuxtConfig({
   ],
   googleFonts: {    
     families: {
-      'Black Ops One': true,      
-      'Pacifico':true,
-      'Abril Fatface ':true,
-      'Orbitron':true,
-      'Fredoka':true,
-      'Montserrat Alternates': true,
-      'Cinzel': true,
-      'Courgette': true,
-      'Kanit':true,
-      'Dosis':true
+      'DM Sans': true,      
     }
   },
   colorMode: {
