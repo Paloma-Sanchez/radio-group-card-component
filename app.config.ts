@@ -34,6 +34,7 @@ export default defineAppConfig({
         md:'labelcenter pl-3'
       },
       label: {
+        xs:'label h-full w-full text-md rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center dark:text-gray-200 dark:checked:bg-current dark:checked:border-transparent  focus:ring-0 focus:ring-transparent focus:ring-offset-transparent',
         sm:'label h-full w-full text-sm rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-between dark:text-gray-200 dark:checked:bg-current dark:checked:border-transparent  focus:ring-0 focus:ring-transparent focus:ring-offset-transparent',
         md:'label h-full w-full pr-6 text-sm rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-between dark:text-gray-200 dark:checked:bg-current dark:checked:border-transparent  focus:ring-0 focus:ring-transparent focus:ring-offset-transparent'
       },

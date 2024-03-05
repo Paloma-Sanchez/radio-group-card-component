@@ -1,10 +1,12 @@
 {
-  "name": "radio-group-card-nuxt-ui",
+  "name": "nuxt-ui-radio-gp-card",
   "private": true,
   "type": "module",
   "description": "Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.",
   "version": "1.0.0",
   "main": "index.js",
+  "author": "Paloma-Sanchez",
+  "license": "MIT",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev -p 3001",
@@ -32,7 +34,6 @@
     "nuxt-app": "github:Paloma-Sanchez/radio-group-card-nuxt-ui",
     "uuid": "^9.0.1"
   },
- 
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Paloma-Sanchez/radio-group-card-nuxt-ui.git"
@@ -43,8 +44,6 @@
     "nuxtui",
     "nuxt"
   ],
-  "author": "Paloma-Sanchez",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Paloma-Sanchez/radio-group-card-nuxt-ui/issues"
   },
